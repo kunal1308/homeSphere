@@ -1,0 +1,7 @@
+.Toastify__toast-icon svg {
+  fill: #1e3a8a !important;
+}
+
+.Toastify__progress-bar--success {
+  background: #1e3a8a !important;
+}
