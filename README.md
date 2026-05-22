@@ -1,73 +1,148 @@
-# React + TypeScript + Vite
+**HomeSphere **
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern rental marketplace platform for property owners and tenants.
 
-Currently, two official plugins are available:
+A modern full-stack property rental platform built using React, TypeScript, Firebase, and Material UI. HomeSphere allows property owners to list and manage rental properties while tenants can browse, view details, and apply for rent online.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+##🚀 Live Demo
 
-## React Compiler
+**🌐 Live Website:**
+https://home-sphere-ysl4.vercel.app/
+**
+##✨ Features
+**🔐 Authentication**
+Firebase Authentication
+Login / Signup
+Role-based user flow
+Persistent login session
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**🏘️ Property Management**
+Owner Features
+Add new property
+Edit property details
+Upload multiple images
+Residential & commercial listings
+View all own listings
+View tenant applications
+Approve / reject applications
+Tenant Features
+Browse properties
+View detailed property page
+Apply for rent
+View application status
 
-## Expanding the ESLint configuration
+**📸 Image Handling**
+Multiple image uploads
+Cloudinary integration
+Image slider using Swiper.js
+Responsive property gallery
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**🎨 UI/UX**
+Responsive design
+Modern Material UI components
+Global loader
+Empty states
+Pagination
+Sticky action buttons
+Beautiful landing page
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**🛠️ Tech Stack**
+Frontend
+React
+TypeScript
+Vite
+Material UI
+React Router DOM
+Swiper.js
+Backend / Services
+Firebase Authentication
+Firebase Firestore
+Firebase Storage
+Cloudinary
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+**📂 Project Structure**
+src/
+│
+├── components/
+├── pages/
+├── layouts/
+├── services/
+├── routes/
+├── context/
+├── firebase/
+└── assets/
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**⚙️ Environment Variables**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Create a .env file in the root directory:
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+**📦 Installation**
+**Clone Repository**
+git clone https://github.com/kunal1308/homesphere.git
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Install Dependencies**
+npm install
+
+**Run Development Server**
+npm run dev
+
+**🚀 Deployment**
+
+The project is deployed using:
+Vercel
+Firebase
+Cloudinary
+
+**Build Project**
+npm run build
+
+**📱 Screens Included**
+Home Page
+Property Listings
+Property Details
+Add/Edit Property
+Tenant Applications
+Owner Applications
+About Us
+Sitemap
+Privacy Policy
+
+**👨‍💻 Author**
+Developed by Kunal as an MCA major project.
+
+**📄 License**
+This project is developed for educational and portfolio purposes.
+
+# 📸 Screenshots
+
+## 🏠 Home Page
+<img width="1898" height="992" alt="image" src="https://github.com/user-attachments/assets/eedf5d9c-775e-44d1-b242-d02244f6c804" />
+<img width="1919" height="997" alt="image" src="https://github.com/user-attachments/assets/577eba98-76e3-4a8f-ad41-d2dedb0e7db6" />
+<img width="1897" height="992" alt="image" src="https://github.com/user-attachments/assets/4258255d-53cd-4087-8daa-a28cb1b00dc5" />
+
+## 🏢 Property Listings
+<img width="1895" height="992" alt="image" src="https://github.com/user-attachments/assets/4d62d93f-ac40-4de5-832f-38b669d0b34a" />
+
+## 📄 Property Details
+<img width="1900" height="992" alt="image" src="https://github.com/user-attachments/assets/bbd183ed-23d9-476d-ae4d-c2083f30bf43" />
+<img width="1904" height="996" alt="image" src="https://github.com/user-attachments/assets/5923c3c0-2fec-4561-b547-0399c408611f" />
+
+## ➕ Add Property
+<img width="1898" height="986" alt="image" src="https://github.com/user-attachments/assets/58ca7cdf-a486-4207-ac74-9a71e32e482e" />
+<img width="1919" height="1001" alt="image" src="https://github.com/user-attachments/assets/b0b62d5b-4281-4b2f-8d71-3d2e71fa4f95" />
+
+## ✏️ Edit Property
+<img width="1889" height="978" alt="image" src="https://github.com/user-attachments/assets/b77eed01-5d75-44e5-8320-48e083354bcc" />
+
+## 📥 Tenant Applications
+<img width="1900" height="955" alt="image" src="https://github.com/user-attachments/assets/959002fb-ee49-4f9b-8ee2-af732d7eed0d" />
+
+## 📋 Owner Applications
+<img width="1899" height="974" alt="image" src="https://github.com/user-attachments/assets/dd1f9e6f-ce71-485e-b418-67518a4683ec" />
