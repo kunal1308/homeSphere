@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import {
   Box,
   Typography,
@@ -8,38 +6,12 @@ import {
   Card,
 } from "@mui/material";
 
-import HomeWorkIcon from "@mui/icons-material/HomeWork";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-
-import { useNavigate } from "react-router-dom";
-
-import PropertyCard from "../components/PropertyCard";
-
-import { getProperties } from "../services/propertyService";
 import { handleProtectedNavigation } from "../components/Header";
 
 const Home = () => {
-  const navigate =
-    useNavigate();
-
-  const [properties, setProperties] =
-    useState<any[]>([]);
-
-  useEffect(() => {
-    fetchProperties();
-  }, []);
-
-  const fetchProperties = async () => {
-    const data =
-      await getProperties();
-
-    setProperties(
-      data as any[]
-    );
-  };
-
   return (
     <>
       {/* HERO SECTION */}

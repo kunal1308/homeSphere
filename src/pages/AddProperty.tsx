@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addProperty } from "../services/propertyService";
+import { createProperty } from "../services/propertyService";
 import { toast } from "react-toastify";
 
 const AddProperty = () => {
@@ -9,7 +9,7 @@ const AddProperty = () => {
 
     const handleSubmit = async () => {
         try {
-            await addProperty({
+            await createProperty({
                 title,
                 location,
                 price,

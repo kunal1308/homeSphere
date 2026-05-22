@@ -7,8 +7,6 @@ import {
     Tabs,
     Tab,
     Typography,
-    useTheme,
-    useMediaQuery,
     Paper,
     Grid,
 } from "@mui/material";
@@ -43,16 +41,6 @@ const cities = [
 const Sitemap = () => {
     const [activeTab, setActiveTab] =
         useState(0);
-
-    const theme =
-        useTheme();
-
-    const isMobile =
-        useMediaQuery(
-            theme.breakpoints.down(
-                "sm"
-            )
-        );
 
     const handleTabChange = (
         _event:
