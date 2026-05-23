@@ -22,6 +22,7 @@ import {
     uploadPropertyImages
 } from "../../services/propertyService";
 import SuccessStep from "./Steps/SuccessStep";
+import { useLoader } from "../../context/LoaderContext";
 
 interface AddPropertyModalProps {
     open: boolean;
@@ -41,6 +42,10 @@ const AddPropertyModal = ({
         useState("");
     const [loading, setLoading] =
         useState(false);
+
+    const { showLoader,
+        hideLoader
+    } = useLoader();
 
     const [formData, setFormData] =
         useState({
@@ -94,7 +99,7 @@ const AddPropertyModal = ({
 
     const progress =
         ((currentStep + 1) /
-            steps.length) *
+            steps?.length) *
         100;
 
     const handleNext =
@@ -102,6 +107,7 @@ const AddPropertyModal = ({
             if (loading) return;
 
             setLoading(true);
+            showLoader();
             try {
                 const payload = {
                     ...formData,
@@ -138,7 +144,7 @@ const AddPropertyModal = ({
                 else {
                     const imageUrls =
                         await uploadPropertyImages(
-                            formData.images
+                            formData?.images
                         );
 
                     await updateDraftProperty(
@@ -157,11 +163,11 @@ const AddPropertyModal = ({
                 // FINAL SUBMIT
                 if (
                     currentStep ===
-                    steps.length - 1
+                    steps?.length - 1
                 ) {
                     const imageUrls =
                         await uploadPropertyImages(
-                            formData.images
+                            formData?.images
                         );
 
                     await updateDraftProperty(
@@ -187,13 +193,10 @@ const AddPropertyModal = ({
                 );
             } catch (error) {
                 console.log(error);
-
-                alert(
-                    JSON.stringify(error)
-                );
             } finally {
-
                 setLoading(false);
+
+                hideLoader();
             }
         };
 
@@ -232,8 +235,19 @@ const AddPropertyModal = ({
         >
             <Box
                 sx={{
-                    width: "60vw",
-                    height: "80vh",
+                    width: {
+                        xs: "95%",
+                        sm: "90%",
+                        md: "75%",
+                        lg: "60vw",
+                    },
+
+                    height: {
+                        xs: "95vh",
+                        md: "80vh",
+                    },
+
+                    maxHeight: "95vh",
 
                     bgcolor: "white",
 
@@ -247,39 +261,46 @@ const AddPropertyModal = ({
 
                     mx: "auto",
 
-                    mt: "3vh",
+                    mt: {
+                        xs: "1vh",
+                        md: "3vh",
+                        lg: "10vh"
+                    },
                 }}
             >
                 {/* Header */}
                 <Box
                     sx={{
-                        p: 3,
-
-                        borderBottom:
-                            "1px solid #E2E8F0",
+                        p: {
+                            xs: 2,
+                            md: 3,
+                        },
+                        borderBottom: "1px solid #E2E8F0",
                     }}
                 >
                     <Typography
-                        variant="h5"
                         sx={{
                             fontWeight: "bold",
+                            fontSize: {
+                                xs: "1.3rem",
+                                md: "1.7rem",
+                            },
                         }}
                     >
                         {
-                            activeStep.title
+                            activeStep?.title
                         }
                     </Typography>
 
                     <Typography
                         sx={{
                             color: "#64748B",
-
                             mt: 0.5,
                         }}
                     >
                         Step{" "}
                         {currentStep + 1}{" "}
-                        of {steps.length}
+                        of {steps?.length}
                     </Typography>
 
                     {/* Progress */}
@@ -310,9 +331,14 @@ const AddPropertyModal = ({
                         alternativeLabel
                         sx={{
                             mt: 4,
+
+                            display: {
+                                xs: "none",
+                                md: "flex",
+                            },
                         }}
                     >
-                        {steps.map(
+                        {steps?.map(
                             (step) => (
                                 <Step
                                     key={step.key}
@@ -332,22 +358,24 @@ const AddPropertyModal = ({
                 <Box
                     sx={{
                         flex: 1,
-
-                        overflowY:
-                            "auto",
-
-                        p: 4,
+                        overflowY: "auto",
+                        p: {
+                            xs: 2,
+                            md: 4,
+                        },
                     }}
                 >
                     {/* Property Type */}
-                    {activeStep.key ===
+                    {activeStep?.key ===
                         "property-type" && (
                             <Box>
                                 <Typography
-                                    variant="h5"
                                     sx={{
                                         fontWeight: 600,
-
+                                        fontSize: {
+                                            xs: "1.3rem",
+                                            md: "1.7rem",
+                                        },
                                         mb: 3,
                                     }}
                                 >
@@ -357,9 +385,11 @@ const AddPropertyModal = ({
 
                                 <Box
                                     sx={{
-                                        display:
-                                            "flex",
-
+                                        display: "flex",
+                                        flexDirection: {
+                                            xs: "column",
+                                            sm: "row",
+                                        },
                                         gap: 3,
                                     }}
                                 >
@@ -378,45 +408,36 @@ const AddPropertyModal = ({
                                     ].map((item) => {
                                         const isSelected =
                                             domain ===
-                                            item.id;
+                                            item?.id;
 
                                         return (
                                             <Box
                                                 key={
-                                                    item.id
+                                                    item?.id
                                                 }
                                                 onClick={() =>
                                                     setDomain(
-                                                        item.id
+                                                        item?.id
                                                     )
                                                 }
                                                 sx={{
                                                     flex: 1,
-
-                                                    border:
-                                                        "2px solid",
-
+                                                    border: "2px solid",
                                                     borderColor:
                                                         isSelected
                                                             ? "#1E3A8A"
                                                             : "#E2E8F0",
-
-                                                    borderRadius:
-                                                        "20px",
-
-                                                    p: 4,
-
-                                                    cursor:
-                                                        "pointer",
-
-                                                    transition:
-                                                        "0.2s",
-
+                                                    borderRadius: "20px",
+                                                    p: {
+                                                        xs: 3,
+                                                        md: 4,
+                                                    },
+                                                    cursor: "pointer",
+                                                    transition: "0.2s",
                                                     bgcolor:
                                                         isSelected
                                                             ? "#EFF6FF"
                                                             : "white",
-
                                                     "&:hover":
                                                     {
                                                         borderColor:
@@ -431,7 +452,7 @@ const AddPropertyModal = ({
                                                     }}
                                                 >
                                                     {
-                                                        item.title
+                                                        item?.title
                                                     }
                                                 </Typography>
                                             </Box>
@@ -443,7 +464,7 @@ const AddPropertyModal = ({
 
                     {/* Basic Info */}
                     {/* Basic Info */}
-                    {activeStep.key ===
+                    {activeStep?.key ===
                         "basic-info" && (
                             <BasicInfoStep
                                 formData={formData}
@@ -456,7 +477,7 @@ const AddPropertyModal = ({
 
                     {/* Details */}
                     {/* Details */}
-                    {activeStep.key ===
+                    {activeStep?.key ===
                         "details" && (
                             <PropertyDetailsStep
                                 formData={formData}
@@ -468,7 +489,7 @@ const AddPropertyModal = ({
                         )}
 
                     {/* Photos */}
-                    {activeStep.key ===
+                    {activeStep?.key ===
                         "photos" && (
                             <UploadPhotosStep
                                 formData={formData}
@@ -479,7 +500,7 @@ const AddPropertyModal = ({
                         )}
 
                     {/* Review */}
-                    {activeStep.key ===
+                    {activeStep?.key ===
                         "review" && (
                             <SuccessStep
                                 handleClose={handleClose}
@@ -491,12 +512,13 @@ const AddPropertyModal = ({
                 <Box
                     sx={{
                         p: 3,
-
-                        borderTop:
-                            "1px solid #E2E8F0",
-
+                        borderTop: "1px solid #E2E8F0",
                         display: "flex",
-
+                        flexDirection: {
+                            xs: "column",
+                            sm: "row",
+                        },
+                        gap: 2,
                         justifyContent:
                             "space-between",
                     }}
@@ -506,6 +528,12 @@ const AddPropertyModal = ({
                             currentStep === 0
                         }
                         onClick={handleBack}
+                        sx={{
+                            width: {
+                                xs: "100%",
+                                sm: "auto",
+                            },
+                        }}
                     >
                         Back
                     </Button>
@@ -514,11 +542,15 @@ const AddPropertyModal = ({
                         variant="contained"
                         onClick={handleNext}
                         disabled={
-                            activeStep.key ===
+                            activeStep?.key ===
                             "property-type" &&
                             !domain || loading
                         }
                         sx={{
+                            width: {
+                                xs: "100%",
+                                sm: "auto",
+                            },
                             bgcolor:
                                 "#1E3A8A",
                         }}
@@ -526,7 +558,7 @@ const AddPropertyModal = ({
                         {loading
                             ? "Saving..."
                             : currentStep ===
-                                steps.length - 1
+                                steps?.length - 1
                                 ? "Submit"
                                 : "Next"}
                     </Button>

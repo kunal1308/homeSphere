@@ -168,21 +168,49 @@ const LoginModal = ({
         >
             <Box
                 sx={{
-                    width: "70vw",
-                    height: "70vh",
+                    width: {
+                        xs: "95%",
+                        sm: "85%",
+                        md: "70vw",
+                    },
+
+                    height: {
+                        xs: "auto",
+                        md: "70vh",
+                    },
+
+                    maxHeight: "95vh",
+
+                    display: "flex",
+
+                    flexDirection: {
+                        xs: "column",
+                        md: "row",
+                    },
+
+                    overflowY: "auto",
                     bgcolor: "white",
                     borderRadius: "24px",
                     overflow: "hidden",
-                    display: "flex",
                     mx: "auto",
-                    mt: "10vh",
+                    mt: {
+                        xs: "3vh",
+                        lg: "10vh"
+                    },
                 }}
             >
                 {/* Left Side */}
-                {/* Left Side */}
                 <Box
                     sx={{
-                        width: "50%",
+                        width: {
+                            xs: "100%",
+                            md: "50%",
+                        },
+
+                        height: {
+                            xs: "220px",
+                            md: "100%",
+                        },
 
                         position:
                             "relative",
@@ -235,10 +263,12 @@ const LoginModal = ({
                         }}
                     >
                         <Typography
-                            variant="h2"
                             sx={{
                                 fontWeight: 800,
-
+                                fontSize: {
+                                    xs: "2rem",
+                                    md: "3.5rem",
+                                },
                                 mb: 3,
                             }}
                         >
@@ -247,10 +277,12 @@ const LoginModal = ({
 
                         <Typography
                             sx={{
-                                fontSize: "20px",
+                                fontSize: {
+                                    xs: "14px",
+                                    md: "20px",
+                                },
 
-                                maxWidth:
-                                    "420px",
+                                maxWidth: "420px",
 
                                 lineHeight: 1.8,
 
@@ -270,8 +302,16 @@ const LoginModal = ({
                 {/* Right Side */}
                 <Box
                     sx={{
-                        width: "50%",
-                        p: 5,
+                        width: {
+                            xs: "100%",
+                            md: "50%",
+                        },
+
+                        p: {
+                            xs: 3,
+                            sm: 4,
+                            md: 5,
+                        },
                         position: "relative",
                         display: "flex",
                         flexDirection: "column",
@@ -290,10 +330,13 @@ const LoginModal = ({
                     </IconButton>
 
                     <Typography
-                        variant="h4"
                         sx={{
                             fontWeight: "bold",
                             mb: 4,
+                            fontSize: {
+                                xs: "1.8rem",
+                                md: "2.2rem",
+                            },
                         }}
                     >
                         Login

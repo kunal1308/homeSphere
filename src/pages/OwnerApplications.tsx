@@ -37,6 +37,10 @@ const OwnerApplications =
         } = useLoader();
 
         useEffect(() => {
+            window.scrollTo(0, 0);
+        }, []);
+
+        useEffect(() => {
             const unsubscribe =
                 onAuthStateChanged(
                     auth,
@@ -93,14 +97,21 @@ const OwnerApplications =
                 }
                 sx={{
                     py: 6,
-                    px: 6,
+                    px: {
+                        xs: 2,
+                        sm: 3,
+                        md: 6,
+                    },
                 }}
             >
                 <Typography
-                    variant="h4"
                     sx={{
                         fontWeight: 700,
                         mb: 4,
+                        fontSize: {
+                            xs: "1.8rem",
+                            md: "2.4rem",
+                        },
                     }}
                 >
                     Property
@@ -124,17 +135,21 @@ const OwnerApplications =
                             ) => (
                                 <Card
                                     key={
-                                        application.id
+                                        application?.id
                                     }
                                     sx={{
                                         p: 3,
-                                        borderRadius:
-                                            "20px",
-                                        display:
-                                            "flex",
+                                        borderRadius: "20px",
+                                        display: "flex",
+                                        flexDirection: {
+                                            xs: "column",
+                                            sm: "row",
+                                        },
                                         gap: 3,
-                                        alignItems:
-                                            "center",
+                                        alignItems: {
+                                            xs: "flex-start",
+                                            sm: "center",
+                                        },
                                     }}
                                 >
                                     <Box
@@ -143,12 +158,16 @@ const OwnerApplications =
                                             application?.propertyImage
                                         }
                                         sx={{
-                                            width: 140,
-                                            height: 100,
-                                            objectFit:
-                                                "cover",
-                                            borderRadius:
-                                                "16px",
+                                            width: {
+                                                xs: "100%",
+                                                sm: 140,
+                                            },
+                                            height: {
+                                                xs: 220,
+                                                sm: 100,
+                                            },
+                                            objectFit: "cover",
+                                            borderRadius: "16px",
                                         }}
                                     />
 
@@ -182,13 +201,18 @@ const OwnerApplications =
 
                                     <Box
                                         sx={{
-                                            display:
-                                                "flex",
-                                            flexDirection:
-                                                "column",
+                                            display: "flex",
+                                            flexDirection: "column",
                                             gap: 2,
-                                            alignItems:
-                                                "flex-end",
+                                            alignItems: {
+                                                xs: "stretch",
+                                                sm: "flex-end",
+                                            },
+
+                                            width: {
+                                                xs: "100%",
+                                                sm: "auto",
+                                            },
                                         }}
                                     >
                                         <Chip
@@ -204,15 +228,25 @@ const OwnerApplications =
                                                         ? "error"
                                                         : "warning"
                                             }
+                                            sx={{
+                                                alignSelf: {
+                                                    xs: "flex-start",
+                                                    sm: "flex-end",
+                                                },
+                                            }}
                                         />
 
                                         {application?.status ===
                                             "pending" && (
                                                 <Box
                                                     sx={{
-                                                        display:
-                                                            "flex",
+                                                        display: "flex",
+                                                        flexDirection: {
+                                                            xs: "column",
+                                                            sm: "row",
+                                                        },
                                                         gap: 1,
+                                                        width: "100%",
                                                     }}
                                                 >
                                                     <Button
@@ -220,10 +254,16 @@ const OwnerApplications =
                                                         color="success"
                                                         onClick={() =>
                                                             handleStatus(
-                                                                application.id,
+                                                                application?.id,
                                                                 "approved"
                                                             )
                                                         }
+                                                        sx={{
+                                                            width: {
+                                                                xs: "100%",
+                                                                sm: "auto",
+                                                            },
+                                                        }}
                                                     >
                                                         Approve
                                                     </Button>
@@ -233,10 +273,16 @@ const OwnerApplications =
                                                         color="error"
                                                         onClick={() =>
                                                             handleStatus(
-                                                                application.id,
+                                                                application?.id,
                                                                 "rejected"
                                                             )
                                                         }
+                                                        sx={{
+                                                            width: {
+                                                                xs: "100%",
+                                                                sm: "auto",
+                                                            },
+                                                        }}
                                                     >
                                                         Reject
                                                     </Button>
@@ -262,10 +308,13 @@ const OwnerApplications =
                             }}
                         >
                             <Typography
-                                variant="h4"
                                 sx={{
                                     fontWeight: 700,
                                     mb: 2,
+                                    fontSize: {
+                                        xs: "1.8rem",
+                                        md: "2.4rem",
+                                    },
                                 }}
                             >
                                 No Applications

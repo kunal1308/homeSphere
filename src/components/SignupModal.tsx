@@ -183,21 +183,48 @@ const SignupModal = ({
         >
             <Box
                 sx={{
-                    width: "70vw",
-                    height: "80vh",
+                    width: {
+                        xs: "95%",
+                        sm: "85%",
+                        md: "70vw",
+                    },
+
+                    height: {
+                        xs: "auto",
+                        md: "80vh",
+                    },
+
+                    maxHeight: "95vh",
+
+                    display: "flex",
+
+                    flexDirection: {
+                        xs: "column",
+                        md: "row",
+                    },
+
+                    overflowY: "auto",
                     bgcolor: "white",
                     borderRadius: "24px",
-                    overflowY: "auto",
-                    display: "flex",
                     mx: "auto",
-                    mt: "10vh",
+                    mt: {
+                        xs: "3vh",
+                        md: "10vh",
+                    },
                 }}
             >
                 {/* Left Side */}
-                {/* Left Side */}
                 <Box
                     sx={{
-                        width: "50%",
+                        width: {
+                            xs: "100%",
+                            md: "50%",
+                        },
+                        height: {
+                            xs: "260px",
+                            sm: "300px",
+                            md: "100%",
+                        },
 
                         position:
                             "relative",
@@ -243,17 +270,23 @@ const SignupModal = ({
 
                             color: "white",
 
-                            p: 5,
+                            p: {
+                                xs: 2,
+                                md: 5,
+                            },
 
                             textAlign:
                                 "center",
                         }}
                     >
                         <Typography
-                            variant="h2"
                             sx={{
                                 fontWeight: 800,
-
+                                fontSize: {
+                                    xs: "1.5rem",
+                                    sm: "2rem",
+                                    md: "3.5rem",
+                                },
                                 mb: 3,
                             }}
                         >
@@ -262,10 +295,12 @@ const SignupModal = ({
 
                         <Typography
                             sx={{
-                                fontSize: "20px",
+                                fontSize: {
+                                    xs: "14px",
+                                    md: "20px",
+                                },
 
-                                maxWidth:
-                                    "420px",
+                                maxWidth: "420px",
 
                                 lineHeight: 1.8,
 
@@ -285,8 +320,16 @@ const SignupModal = ({
                 {/* Right Side */}
                 <Box
                     sx={{
-                        width: "50%",
-                        p: 5,
+                        width: {
+                            xs: "100%",
+                            md: "50%",
+                        },
+
+                        p: {
+                            xs: 3,
+                            sm: 4,
+                            md: 5,
+                        },
                         position: "relative",
                         display: "flex",
                         flexDirection: "column",
@@ -306,10 +349,13 @@ const SignupModal = ({
                     </IconButton>
 
                     <Typography
-                        variant="h4"
                         sx={{
                             fontWeight: "bold",
                             mb: 4,
+                            fontSize: {
+                                xs: "1.8rem",
+                                md: "2.2rem",
+                            },
                         }}
                     >
                         Signup
@@ -328,8 +374,17 @@ const SignupModal = ({
                     <Box
                         sx={{
                             display: "flex",
+
+                            flexDirection: {
+                                xs: "column",
+                                sm: "row",
+                            },
+
                             gap: 2,
-                            mb: 4,
+                            mb: {
+                                xs: 3,
+                                md: 4,
+                            },
                         }}
                     >
                         {/* Owner */}

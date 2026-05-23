@@ -36,6 +36,13 @@ const Home = () => {
       >
         <Container
           maxWidth={false}
+          sx={{
+            px: {
+              xs: 2,
+              sm: 3,
+              md: 6,
+            },
+          }}
         >
           <Box
             sx={{
@@ -49,7 +56,8 @@ const Home = () => {
                 fontWeight: 800,
 
                 fontSize: {
-                  xs: "3rem",
+                  xs: "2.3rem",
+                  sm: "3rem",
                   md: "5rem",
                 },
 
@@ -66,7 +74,7 @@ const Home = () => {
             <Typography
               sx={{
                 fontSize: {
-                  xs: "18px",
+                  xs: "16px",
                   md: "22px",
                 },
 
@@ -94,10 +102,17 @@ const Home = () => {
               sx={{
                 display: "flex",
 
-                gap: 3,
+                flexDirection: {
+                  xs: "column",
+                  sm: "row",
+                },
 
-                flexWrap:
-                  "wrap",
+                gap: 2,
+
+                width: {
+                  xs: "100%",
+                  sm: "auto",
+                },
               }}
             >
               <Button
@@ -114,6 +129,10 @@ const Home = () => {
                   fontSize: "16px",
                   bgcolor: "white",
                   color: "#1E3A8A",
+                  width: {
+                    xs: "100%",
+                    sm: "auto",
+                  },
 
                   "&:hover":
                   {
@@ -137,6 +156,10 @@ const Home = () => {
                     "58px",
 
                   px: 5,
+                  width: {
+                    xs: "100%",
+                    sm: "auto",
+                  },
 
                   borderRadius:
                     "14px",
@@ -169,8 +192,13 @@ const Home = () => {
           <Box
             sx={{
               display: "flex",
-              gap: 4,
+              gap: 3,
               flexWrap: "wrap",
+              justifyContent: {
+                xs: "center",
+                md: "flex-start",
+              },
+
               mt: 8,
             }}
           >
@@ -196,7 +224,10 @@ const Home = () => {
       <Container
         maxWidth={false}
         sx={{
-          py: 10,
+          py: {
+            xs: 4,
+            lg: 10
+          },
           px: {
             xs: 3,
             md: 6,
@@ -204,14 +235,17 @@ const Home = () => {
         }}
       >
         <Typography
-          variant="h3"
           sx={{
             fontWeight: 700,
-
-            textAlign:
-              "center",
-
-            mb: 7,
+            textAlign: "center",
+            mb: {
+              xs: 4,
+              lg: 7
+            },
+            fontSize: {
+              xs: "2rem",
+              md: "3rem",
+            },
           }}
         >
           Why Choose
@@ -268,7 +302,10 @@ const Home = () => {
           bgcolor:
             "#F8FAFC",
 
-          py: 10,
+          py: {
+            xs: 4,
+            lg: 10
+          },
         }}
       >
         <Container
@@ -284,19 +321,21 @@ const Home = () => {
             sx={{
               display: "flex",
 
-              flexWrap: "wrap",
+              flexDirection: {
+                xs: "column",
+                md: "row",
+              },
 
               gap: 4,
+
+              flexWrap: "wrap",
             }}
           >
             {/* TENANTS */}
             <Card
               sx={{
                 flex: 1,
-
-                minWidth:
-                  "320px",
-
+                width: "100%",
                 p: 5,
 
                 borderRadius:
@@ -310,7 +349,10 @@ const Home = () => {
                 src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200"
                 sx={{
                   width: "100%",
-                  height: "220px",
+                  height: {
+                    xs: "180px",
+                    md: "220px",
+                  },
                   objectFit: "cover",
                   borderRadius: "18px",
                   mb: 3,
@@ -368,15 +410,9 @@ const Home = () => {
             <Card
               sx={{
                 flex: 1,
-
-                minWidth:
-                  "320px",
-
+                width: "100%",
                 p: 5,
-
-                borderRadius:
-                  "24px",
-
+                borderRadius: "24px",
                 boxShadow: 2,
               }}
             >
@@ -385,7 +421,10 @@ const Home = () => {
                 src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200"
                 sx={{
                   width: "100%",
-                  height: "220px",
+                  height: {
+                    xs: "180px",
+                    md: "220px",
+                  },
                   objectFit: "cover",
                   borderRadius: "18px",
                   mb: 3,
@@ -460,10 +499,13 @@ const Home = () => {
           }}
         >
           <Typography
-            variant="h3"
             sx={{
               fontWeight: 800,
               mb: 3,
+              fontSize: {
+                xs: "2rem",
+                md: "3rem",
+              },
             }}
           >
             Ready to Find Your
@@ -521,7 +563,11 @@ const FeatureCard = ({
   return (
     <Card
       sx={{
-        width: "350px",
+        width: {
+          xs: "100%",
+          sm: "320px",
+          md: "350px",
+        },
 
         p: 4,
 
@@ -575,16 +621,13 @@ const StatCard = ({
   return (
     <Card
       sx={{
-        minWidth: "220px",
-
+        width: {
+          xs: "100%",
+          sm: "220px",
+        },
         p: 4,
-
-        borderRadius:
-          "20px",
-
-        textAlign:
-          "center",
-
+        borderRadius: "20px",
+        textAlign: "center",
         bgcolor:
           "rgba(255,255,255,0.12)",
 
@@ -595,10 +638,13 @@ const StatCard = ({
       }}
     >
       <Typography
-        variant="h3"
         sx={{
           fontWeight: 800,
           mb: 1,
+          fontSize: {
+            xs: "2rem",
+            md: "3rem",
+          },
         }}
       >
         {value}

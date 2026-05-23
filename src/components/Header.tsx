@@ -4,7 +4,14 @@ import {
     Typography,
     Button,
     Box,
+    Drawer,
+    IconButton,
+    List,
+    ListItemButton,
+    ListItemText,
 } from "@mui/material";
+
+import MenuIcon from "@mui/icons-material/Menu";
 
 import { useEffect, useState } from "react";
 
@@ -50,6 +57,7 @@ const Header = ({
 
     const [userRole, setUserRole] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     useEffect(() => {
         const unsubscribe =
@@ -104,6 +112,31 @@ const Header = ({
             }
         };
 
+    const getDrawerItemStyles = (
+        path: string
+    ) => ({
+        borderRadius: "8px",
+        cursor: "pointer",
+
+        mx: 1,
+        my: 0.5,
+        p: 0.6,
+        fontWeight: location.pathname === path
+            ? 600 : 400,
+
+        color:
+            location.pathname === path
+                ? "#1E3A8A"
+                : "black",
+
+        "&:hover": {
+            color:
+                location.pathname === path
+                    ? "#1E3A8A"
+                    : "black",
+        },
+    });
+
     return (
         <AppBar
             position="sticky"
@@ -116,98 +149,66 @@ const Header = ({
             <Toolbar
                 sx={{
                     display: "flex",
+                    justifyContent:
+                        "space-between",
                     alignItems: "center",
-                    justifyContent: "space-between",
-                    minHeight: "80px",
-                    px: 4,
+
+                    minHeight: {
+                        xs: "70px",
+                        md: "80px",
+                    },
+
+                    px: {
+                        xs: 2,
+                        sm: 3,
+                        md: 4,
+                    },
                 }}
             >
-                {/* LEFT - Logo */}
-                <Box sx={{ flex: 1 }}>
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            fontWeight: "bold",
-                            color: "#1E3A8A",
-                            cursor: "pointer",
-                        }}
-                    >
-                        HomeSphere
-                    </Typography>
-                </Box>
+                {/* LEFT LOGO */}
+                <Typography
+                    sx={{
+                        fontWeight: "bold",
+                        color: "#1E3A8A",
+                        cursor: "pointer",
 
-                {/* CENTER - Menu */}
+                        fontSize: {
+                            xs: "1.5rem",
+                            md: "2rem",
+                        },
+                    }}
+                >
+                    HomeSphere
+                </Typography>
+
+                {/* DESKTOP MENU */}
                 <Box
                     sx={{
-                        flex: 1,
-                        display: "flex",
-                        justifyContent: "center",
+                        display: {
+                            xs: "none",
+                            md: "flex",
+                        },
+
+                        alignItems: "center",
+
+                        gap: 3,
                     }}
                 >
                     {userRole === "tenant" && (
-                        <Box sx={{ display: 'flex', gap: '1.5rem' }}>
+                        <>
                             <Typography
-                                sx={{
-                                    cursor: "pointer",
-                                    fontWeight: 550,
-                                    bgcolor:
-                                        location.pathname ===
-                                            "/properties"
-                                            ? "#1E3A8A"
-                                            : "transparent",
-
-                                    color:
-                                        location.pathname ===
-                                            "/properties"
-                                            ? "white"
-                                            : "#0F172A",
-
-                                    borderRadius:
-                                        "10px",
-
-                                    px: 2,
-
-                                    "&:hover": {
-                                        bgcolor:
-                                            location.pathname ===
-                                                "/properties"
-                                                ? "#1E3A8A"
-                                                : "#F1F5F9",
-                                    },
-                                }}
+                                sx={getDrawerItemStyles(
+                                    "/properties"
+                                )}
                                 onClick={() => navigate('/properties')}
                             >
                                 Properties
                             </Typography>
+
                             <Typography
-                                sx={{
-                                    cursor: "pointer",
-                                    fontWeight: 550,
-                                    bgcolor:
-                                        location.pathname ===
-                                            "/my-applications"
-                                            ? "#1E3A8A"
-                                            : "transparent",
-
-                                    color:
-                                        location.pathname ===
-                                            "/my-applications"
-                                            ? "white"
-                                            : "#0F172A",
-
-                                    borderRadius:
-                                        "10px",
-
-                                    px: 2,
-
-                                    "&:hover": {
-                                        bgcolor:
-                                            location.pathname ===
-                                                "/my-applications"
-                                                ? "#1E3A8A"
-                                                : "#F1F5F9",
-                                    },
-                                }}
+                                sx={getDrawerItemStyles(
+                                    "/my-applications"
+                                )}
                                 onClick={() =>
                                     navigate(
                                         "/my-applications"
@@ -216,123 +217,217 @@ const Header = ({
                             >
                                 Applications
                             </Typography>
-                        </Box>
+                        </>
                     )}
 
                     {userRole === "owner" && (
-                        <Box sx={{ display: 'flex', gap: '1.5rem' }}>
+                        <>
                             <Typography
-                                sx={{
-                                    cursor: "pointer",
-                                    fontWeight: 550,
-                                    bgcolor:
-                                        location.pathname ===
-                                            "/my-listings"
-                                            ? "#1E3A8A"
-                                            : "transparent",
-
-                                    color:
-                                        location.pathname ===
-                                            "/my-listings"
-                                            ? "white"
-                                            : "#0F172A",
-
-                                    borderRadius:
-                                        "10px",
-
-                                    px: 2,
-
-                                    "&:hover": {
-                                        bgcolor:
-                                            location.pathname ===
-                                                "/my-listings"
-                                                ? "#1E3A8A"
-                                                : "#F1F5F9",
-                                    },
-                                }}
+                                sx={getDrawerItemStyles(
+                                    "/my-listings"
+                                )}
                                 onClick={() => navigate('/my-listings')}
                             >
                                 My Listings
                             </Typography>
+
                             <Typography
-                                sx={{
-                                    cursor: "pointer",
-                                    fontWeight: 550,
-                                    bgcolor:
-                                        location.pathname ===
-                                            "/applications"
-                                            ? "#1E3A8A"
-                                            : "transparent",
-
-                                    color:
-                                        location.pathname ===
-                                            "/applications"
-                                            ? "white"
-                                            : "#0F172A",
-
-                                    borderRadius:
-                                        "10px",
-
-                                    px: 2,
-
-                                    "&:hover": {
-                                        bgcolor:
-                                            location.pathname ===
-                                                "/applications"
-                                                ? "#1E3A8A"
-                                                : "#F1F5F9",
-                                    },
-                                }}
+                                sx={getDrawerItemStyles(
+                                    "/applications"
+                                )}
                                 onClick={() =>
-                                    navigate(
-                                        "/applications"
-                                    )
+                                    navigate("/applications")
                                 }
                             >
                                 Applications
                             </Typography>
-                        </Box>
+                        </>
                     )}
                 </Box>
 
-                {/* RIGHT - Auth Buttons */}
+                {/* RIGHT SECTION */}
                 <Box
                     sx={{
-                        flex: 1,
                         display: "flex",
-                        justifyContent: "flex-end",
+                        alignItems: "center",
                         gap: 2,
                     }}
                 >
-                    {!isLoggedIn ? (
-                        <>
-                            <Button
-                                id="header-login-btn"
-                                variant="outlined"
-                                onClick={onLoginClick}
-                            >
-                                Login
-                            </Button>
+                    {/* DESKTOP AUTH */}
+                    <Box
+                        sx={{
+                            display: {
+                                xs: "none",
+                                md: "flex",
+                            },
 
+                            gap: 2,
+                        }}
+                    >
+                        {!isLoggedIn ? (
+                            <>
+                                <Button
+                                    variant="outlined"
+                                    onClick={onLoginClick}
+                                >
+                                    Login
+                                </Button>
+
+                                <Button
+                                    variant="contained"
+                                    onClick={onSignupClick}
+                                >
+                                    Signup
+                                </Button>
+                            </>
+                        ) : (
                             <Button
                                 variant="contained"
-                                onClick={onSignupClick}
+                                color="error"
+                                onClick={handleLogout}
                             >
-                                Signup
+                                Logout
                             </Button>
-                        </>
-                    ) : (
-                        <Button
-                            variant="contained"
-                            color="error"
-                            onClick={handleLogout}
+                        )}
+                    </Box>
+
+                    {/* MOBILE MENU */}
+                    <Box
+                        sx={{
+                            display: {
+                                xs: "block",
+                                md: "none",
+                            },
+                        }}
+                    >
+                        <IconButton
+                            onClick={() =>
+                                setMobileOpen(true)
+                            }
                         >
-                            Logout
-                        </Button>
-                    )}
+                            <MenuIcon />
+                        </IconButton>
+                    </Box>
                 </Box>
             </Toolbar>
-        </AppBar>
+            <Drawer
+                anchor="right"
+                open={mobileOpen}
+                onClose={() =>
+                    setMobileOpen(false)
+                }
+            >
+                <Box sx={{ width: 250 }}>
+                    <List>
+                        {userRole === "tenant" && (
+                            <>
+                                <ListItemButton
+                                    onClick={() => {
+                                        navigate("/properties");
+                                        setMobileOpen(false);
+                                    }}
+                                    sx={getDrawerItemStyles(
+                                        "/properties"
+                                    )}
+                                >
+                                    <ListItemText
+                                        primary="Properties"
+                                    />
+                                </ListItemButton>
+
+                                <ListItemButton
+                                    onClick={() => {
+                                        navigate(
+                                            "/my-applications"
+                                        );
+
+                                        setMobileOpen(false);
+                                    }}
+                                    sx={getDrawerItemStyles(
+                                        "/my-applications"
+                                    )}
+                                >
+                                    <ListItemText
+                                        primary="Applications"
+                                    />
+                                </ListItemButton>
+                            </>
+                        )}
+
+                        {userRole === "owner" && (
+                            <>
+                                <ListItemButton
+                                    onClick={() => {
+                                        navigate(
+                                            "/my-listings"
+                                        );
+
+                                        setMobileOpen(false);
+                                    }}
+                                    sx={getDrawerItemStyles(
+                                        "/my-listings"
+                                    )}
+                                >
+                                    <ListItemText
+                                        primary="My Listings"
+                                    />
+                                </ListItemButton>
+
+                                <ListItemButton
+                                    onClick={() => {
+                                        navigate(
+                                            "/applications"
+                                        );
+
+                                        setMobileOpen(false);
+                                    }}
+                                    sx={getDrawerItemStyles(
+                                        "/applications"
+                                    )}
+                                >
+                                    <ListItemText
+                                        primary="Applications"
+                                    />
+                                </ListItemButton>
+                            </>
+                        )}
+
+                        <ListItemButton
+                            onClick={() => {
+                                if (isLoggedIn) {
+                                    handleLogout();
+                                } else {
+                                    onLoginClick();
+                                }
+
+                                setMobileOpen(false);
+                            }}
+                        >
+                            <ListItemText
+                                primary={
+                                    isLoggedIn
+                                        ? "Logout"
+                                        : "Login"
+                                }
+                            />
+                        </ListItemButton>
+
+                        {!isLoggedIn &&
+                            <ListItemButton
+                                onClick={() => {
+                                    onSignupClick();
+                                    setMobileOpen(false);
+                                }}
+                            >
+                                <ListItemText
+                                    primary={"Signup"}
+                                />
+                            </ListItemButton>
+                        }
+                    </List>
+                </Box>
+            </Drawer>
+        </AppBar >
     );
 };
 

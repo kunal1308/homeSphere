@@ -54,6 +54,10 @@ const MyListings = () => {
             unsubscribe();
     }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const fetchProperties =
         async () => {
             try {
@@ -94,23 +98,43 @@ const MyListings = () => {
             maxWidth={false}
             sx={{
                 py: 6,
-                px: 6,
+                px: {
+                    xs: 2,
+                    sm: 3,
+                    md: 6,
+                },
             }}
         >
             {/* Top Header */}
             <Box
                 sx={{
                     display: "flex",
+
+                    flexDirection: {
+                        xs: "column",
+                        sm: "row",
+                    },
+
                     justifyContent:
                         "space-between",
-                    alignItems: "center",
+
+                    alignItems: {
+                        xs: "stretch",
+                        sm: "center",
+                    },
+
+                    gap: 2,
+
                     mb: 4,
                 }}
             >
                 <Typography
-                    variant="h4"
                     sx={{
                         fontWeight: "bold",
+                        fontSize: {
+                            xs: "1.8rem",
+                            md: "2.4rem",
+                        },
                     }}
                 >
                     My Properties
@@ -122,113 +146,122 @@ const MyListings = () => {
                     onClick={() =>
                         setOpenAddModal(true)
                     }
+                    sx={{
+                        width: {
+                            xs: "100%",
+                            sm: "auto",
+                        },
+
+                        alignSelf: {
+                            xs: "stretch",
+                            sm: "flex-end",
+                        },
+                    }}
                 >
                     Add Property
                 </Button>
             </Box>
 
             {/* Property Cards */}
-            <Box
-                sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: 4,
-                    justifyContent:
-                        "flex-start",
-                }}
-            >
-                {/* Property Cards */}
-                {paginatedProperties?.length >
-                    0 ? (
-                    <Box
+            {paginatedProperties?.length >
+                0 ? (
+                <Box
+                    sx={{
+                        display: "flex",
+
+                        flexWrap: "wrap",
+
+                        gap: 3,
+
+                        justifyContent: {
+                            xs: "center",
+                            md: "flex-start",
+                        },
+                    }}
+                >
+                    {paginatedProperties?.map(
+                        (property) => (
+                            <Box
+                                key={property?.id}
+                                sx={{
+                                    width: {
+                                        xs: "100%",
+                                        sm: "320px",
+                                        md: "350px",
+                                    },
+                                }}
+                            >
+                                <PropertyCard
+                                    property={property}
+                                    isOwner
+                                />
+                            </Box>
+                        )
+                    )}
+                </Box>
+            ) : (
+                <Box
+                    sx={{
+                        height: "60vh",
+                        width: '100%',
+                        display: "flex",
+                        flexDirection:
+                            "column",
+                        alignItems: "center",
+                        justifyContent:
+                            "center",
+                        textAlign: "center",
+                    }}
+                >
+                    <Typography
                         sx={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            gap: 4,
-                            justifyContent:
-                                "flex-start",
+                            fontWeight: "bold",
+                            color: "#1E293B",
+                            mb: 2,
+                            fontSize: {
+                                xs: "1.8rem",
+                                md: "2.2rem",
+                            },
                         }}
                     >
-                        {paginatedProperties?.map(
-                            (property) => (
-                                <Box
-                                    key={property?.id}
-                                    sx={{
-                                        width: "350px",
-                                    }}
-                                >
-                                    <PropertyCard
-                                        property={
-                                            property
-                                        }
-                                        isOwner
-                                    />
-                                </Box>
+                        No Listings Yet
+                    </Typography>
+
+                    <Typography
+                        sx={{
+                            color: "#64748B",
+                            mb: 4,
+                            fontSize: {
+                                xs: "14px",
+                                md: "16px",
+                            },
+                        }}
+                    >
+                        Start by adding your
+                        first property listing.
+                    </Typography>
+
+                    <Button
+                        variant="contained"
+                        startIcon={<AddIcon />}
+                        onClick={() =>
+                            setOpenAddModal(
+                                true
                             )
-                        )}
-                    </Box>
-                ) : (
-                    <Box
+                        }
                         sx={{
-                            height: "60vh",
-                            width: '100%',
-                            display: "flex",
-                            flexDirection:
-                                "column",
-                            alignItems: "center",
-                            justifyContent:
-                                "center",
-                            textAlign: "center",
+                            borderRadius:
+                                "12px",
+
+                            px: 4,
+
+                            py: 1.2,
                         }}
                     >
-                        <Typography
-                            variant="h4"
-                            sx={{
-                                fontWeight: "bold",
-
-                                color: "#1E293B",
-
-                                mb: 2,
-                            }}
-                        >
-                            No Listings Yet
-                        </Typography>
-
-                        <Typography
-                            sx={{
-                                color: "#64748B",
-
-                                mb: 4,
-
-                                fontSize: "16px",
-                            }}
-                        >
-                            Start by adding your
-                            first property listing.
-                        </Typography>
-
-                        <Button
-                            variant="contained"
-                            startIcon={<AddIcon />}
-                            onClick={() =>
-                                setOpenAddModal(
-                                    true
-                                )
-                            }
-                            sx={{
-                                borderRadius:
-                                    "12px",
-
-                                px: 4,
-
-                                py: 1.2,
-                            }}
-                        >
-                            Add Property
-                        </Button>
-                    </Box>
-                )}
-            </Box>
+                        Add Property
+                    </Button>
+                </Box>
+            )}
 
             {/* Pagination */}
             {properties?.length > 0 &&

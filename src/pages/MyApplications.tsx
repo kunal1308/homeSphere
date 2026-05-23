@@ -44,6 +44,10 @@ const MyApplications = () => {
             unsubscribe();
     }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const fetchApplications =
         async () => {
             showLoader();
@@ -59,14 +63,21 @@ const MyApplications = () => {
             maxWidth={false}
             sx={{
                 py: 6,
-                px: 6,
+                px: {
+                    xs: 2,
+                    sm: 3,
+                    md: 6,
+                },
             }}
         >
             <Typography
-                variant="h4"
                 sx={{
                     fontWeight: 700,
                     mb: 4,
+                    fontSize: {
+                        xs: "1.8rem",
+                        md: "2.4rem",
+                    },
                 }}
             >
                 My Applications
@@ -75,8 +86,7 @@ const MyApplications = () => {
             <Box
                 sx={{
                     display: "flex",
-                    flexDirection:
-                        "column",
+                    flexDirection: "column",
                     gap: 3,
                 }}
             >
@@ -92,13 +102,20 @@ const MyApplications = () => {
                                 }
                                 sx={{
                                     p: 3,
-                                    borderRadius:
-                                        "20px",
-                                    display:
-                                        "flex",
+                                    borderRadius: "20px",
+                                    display: "flex",
+
+                                    flexDirection: {
+                                        xs: "column",
+                                        sm: "row",
+                                    },
+
                                     gap: 3,
-                                    alignItems:
-                                        "center",
+
+                                    alignItems: {
+                                        xs: "flex-start",
+                                        sm: "center",
+                                    },
                                 }}
                             >
                                 <Box
@@ -107,8 +124,15 @@ const MyApplications = () => {
                                         application?.propertyImage
                                     }
                                     sx={{
-                                        width: 140,
-                                        height: 100,
+                                        width: {
+                                            xs: "100%",
+                                            sm: 140,
+                                        },
+
+                                        height: {
+                                            xs: 220,
+                                            sm: 100,
+                                        },
                                         objectFit:
                                             "cover",
                                         borderRadius:
@@ -159,6 +183,12 @@ const MyApplications = () => {
                                 </Box>
 
                                 <Chip
+                                    sx={{
+                                        alignSelf: {
+                                            xs: "flex-start",
+                                            sm: "center",
+                                        },
+                                    }}
                                     label={
                                         application?.status
                                     }
@@ -201,10 +231,13 @@ const MyApplications = () => {
                         </Box>
 
                         <Typography
-                            variant="h4"
                             sx={{
                                 fontWeight: 700,
                                 mb: 2,
+                                fontSize: {
+                                    xs: "1.8rem",
+                                    md: "2.2rem",
+                                },
                             }}
                         >
                             No Applications Found
@@ -217,8 +250,10 @@ const MyApplications = () => {
                                 maxWidth:
                                     "450px",
                                 lineHeight: 1.8,
-                                fontSize:
-                                    "16px",
+                                fontSize: {
+                                    xs: "14px",
+                                    md: "16px",
+                                },
                             }}
                         >
                             You have not applied

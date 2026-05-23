@@ -7,6 +7,7 @@ import {
     collection,
     query,
     where,
+    deleteDoc
 } from "firebase/firestore";
 
 import { auth } from "../firebase/config";
@@ -69,6 +70,14 @@ export const updateDraftProperty =
             }
         );
     };
+
+export const deleteProperty = async (
+    propertyId: string
+) => {
+    await deleteDoc(
+        doc(db, "properties", propertyId)
+    );
+};
 
 export const getProperties =
     async () => {

@@ -4,6 +4,7 @@ import {
     TextField,
     MenuItem,
 } from "@mui/material";
+import { useEffect } from "react";
 
 interface BasicInfoStepProps {
     formData: any;
@@ -30,18 +31,26 @@ const BasicInfoStep = ({
         }));
     };
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <Box
             sx={{
                 maxWidth: "950px",
+                width: "100%",
             }}
         >
             {/* Heading */}
             <Typography
-                variant="h5"
                 sx={{
                     fontWeight: 600,
                     mb: 1,
+                    fontSize: {
+                        xs: "1.4rem",
+                        md: "1.8rem",
+                    },
                 }}
             >
                 Basic Information
@@ -51,6 +60,10 @@ const BasicInfoStep = ({
                 sx={{
                     color: "#64748B",
                     mb: 4,
+                    fontSize: {
+                        xs: "14px",
+                        md: "16px",
+                    },
                 }}
             >
                 Enter your property
@@ -61,11 +74,14 @@ const BasicInfoStep = ({
             <Box
                 sx={{
                     display: "grid",
-
-                    gridTemplateColumns:
-                        "repeat(2, 1fr)",
-
-                    gap: 3,
+                    gridTemplateColumns: {
+                        xs: "1fr",
+                        md: "repeat(2, 1fr)",
+                    },
+                    gap: {
+                        xs: 2,
+                        md: 3,
+                    },
                 }}
             >
                 {/* Property Title */}
@@ -149,7 +165,14 @@ const BasicInfoStep = ({
 
                     <TextField
                         fullWidth
-                        type="number"
+                        type="text"
+                        slotProps={{
+                            htmlInput: {
+                                maxLength: 8,
+                                inputMode: "numeric",
+                                pattern: "[0-9]*",
+                            },
+                        }}
                         placeholder="Enter property price"
                         value={formData.price}
                         onChange={(e) =>
@@ -237,7 +260,15 @@ const BasicInfoStep = ({
 
                         <TextField
                             fullWidth
-                            type="number"
+                            type="text"
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    maxLength: 2,
+                                    inputMode: "numeric",
+                                    pattern: "[0-9]*",
+                                },
+                            }}
                             placeholder="No. of bedrooms"
                             value={
                                 formData.bedrooms
@@ -253,7 +284,7 @@ const BasicInfoStep = ({
 
                                 handleChange(
                                     "bedrooms",
-                                    value.toString()
+                                    value?.toString()
                                 );
                             }}
                             onWheel={(e) =>
@@ -261,11 +292,6 @@ const BasicInfoStep = ({
                                     e.target as HTMLElement
                                 ).blur()
                             }
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                },
-                            }}
                             sx={{
                                 "& .MuiOutlinedInput-root":
                                 {
@@ -294,7 +320,15 @@ const BasicInfoStep = ({
 
                         <TextField
                             fullWidth
-                            type="number"
+                            type="text"
+                            slotProps={{
+                                htmlInput: {
+                                    min: 0,
+                                    maxLength: 2,
+                                    inputMode: "numeric",
+                                    pattern: "[0-9]*",
+                                },
+                            }}
                             placeholder="No. of bathrooms"
                             value={
                                 formData.bathrooms
@@ -310,7 +344,7 @@ const BasicInfoStep = ({
 
                                 handleChange(
                                     "bathrooms",
-                                    value.toString()
+                                    value?.toString()
                                 );
                             }}
                             onWheel={(e) =>
@@ -318,11 +352,6 @@ const BasicInfoStep = ({
                                     e.target as HTMLElement
                                 ).blur()
                             }
-                            slotProps={{
-                                htmlInput: {
-                                    min: 0,
-                                },
-                            }}
                             sx={{
                                 "& .MuiOutlinedInput-root":
                                 {

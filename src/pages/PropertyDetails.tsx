@@ -51,6 +51,10 @@ const PropertyDetails = () => {
         fetchProperty();
     }, []);
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const fetchProperty =
         async () => {
             showLoader();
@@ -118,8 +122,11 @@ const PropertyDetails = () => {
         >
             <Box sx={{ mb: 4 }}>
                 <Typography
-                    variant="h5"
                     sx={{
+                        fontSize: {
+                            xs: "1.7rem",
+                            md: "2.2rem",
+                        },
                         fontWeight: 550,
                         mb: 1,
                     }}
@@ -142,7 +149,10 @@ const PropertyDetails = () => {
                         <Typography
                             sx={{
                                 color: "#64748B",
-                                fontSize: "18px",
+                                fontSize: {
+                                    xs: "14px",
+                                    md: "18px",
+                                },
                                 display: 'flex',
                                 alignItems: 'center',
                                 gap: 1
@@ -209,11 +219,13 @@ const PropertyDetails = () => {
                     </Box>
 
                     <Typography
-                        variant="h5"
                         sx={{
+                            fontSize: {
+                                xs: "1.7rem",
+                                md: "2.2rem",
+                            },
                             fontWeight: 550,
                             color: "#1E3A8A",
-                            fontSize: '2rem'
                         }}
                     >
                         ₹ {Number(
@@ -244,7 +256,11 @@ const PropertyDetails = () => {
                         }
                         sx={{
                             width: "100%",
-                            height: "500px",
+                            height: {
+                                xs: "250px",
+                                sm: "350px",
+                                md: "500px",
+                            },
                             objectFit:
                                 "cover",
                             borderRadius:
@@ -283,8 +299,10 @@ const PropertyDetails = () => {
                                                 sx={{
                                                     width:
                                                         "100%",
-                                                    height:
-                                                        "242px",
+                                                    height: {
+                                                        xs: "180px",
+                                                        md: "242px",
+                                                    },
                                                     objectFit:
                                                         "cover",
                                                     borderRadius:
@@ -309,15 +327,21 @@ const PropertyDetails = () => {
                     {/* OWNER DETAILS */}
                     <Card
                         sx={{
-                            p: 4,
+                            p: {
+                                xs: 2.5,
+                                md: 4,
+                            },
                             borderRadius:
                                 "20px",
                             mb: 4,
                         }}
                     >
                         <Typography
-                            variant="h5"
                             sx={{
+                                fontSize: {
+                                    xs: "1.7rem",
+                                    md: "2.2rem",
+                                },
                                 fontWeight: 700,
                                 mb: 3,
                             }}
@@ -380,15 +404,21 @@ const PropertyDetails = () => {
                     {/* OVERVIEW */}
                     <Card
                         sx={{
-                            p: 4,
+                            p: {
+                                xs: 2.5,
+                                md: 4,
+                            },
                             borderRadius:
                                 "20px",
                             mb: 4,
                         }}
                     >
                         <Typography
-                            variant="h5"
                             sx={{
+                                fontSize: {
+                                    xs: "1.7rem",
+                                    md: "2.2rem",
+                                },
                                 fontWeight: 700,
                                 mb: 3,
                             }}
@@ -397,13 +427,15 @@ const PropertyDetails = () => {
                         </Typography>
 
                         <Typography
-                            variant="h5"
                             sx={{
+                                fontSize: {
+                                    xs: "1.7rem",
+                                    md: "2.2rem",
+                                },
                                 fontWeight: 550,
                                 color:
                                     "#1E3A8A",
                                 mb: 2,
-                                fontSize: '1.75rem'
                             }}
                         >
                             ₹ {Number(
@@ -412,11 +444,13 @@ const PropertyDetails = () => {
                         </Typography>
 
                         <Typography
-                            variant="h5"
                             sx={{
+                                fontSize: {
+                                    xs: "1.7rem",
+                                    md: "2.2rem",
+                                },
                                 fontWeight: 550,
                                 mb: 2,
-                                fontSize: '1.5rem'
                             }}
                         >
                             {property?.title}
@@ -450,15 +484,21 @@ const PropertyDetails = () => {
                     {/* PROPERTY DETAILS */}
                     <Card
                         sx={{
-                            p: 4,
+                            p: {
+                                xs: 2.5,
+                                md: 4,
+                            },
                             borderRadius:
                                 "20px",
                             mb: 4,
                         }}
                     >
                         <Typography
-                            variant="h5"
                             sx={{
+                                fontSize: {
+                                    xs: "1.7rem",
+                                    md: "2.2rem",
+                                },
                                 fontWeight: 700,
                                 mb: 3,
                             }}
@@ -528,14 +568,20 @@ const PropertyDetails = () => {
                     {/* DESCRIPTION */}
                     <Card
                         sx={{
-                            p: 4,
+                            p: {
+                                xs: 2.5,
+                                md: 4,
+                            },
                             borderRadius:
                                 "20px",
                         }}
                     >
                         <Typography
-                            variant="h5"
                             sx={{
+                                fontSize: {
+                                    xs: "1.7rem",
+                                    md: "2.2rem",
+                                },
                                 fontWeight: 700,
                                 mb: 3,
                             }}
@@ -556,10 +602,10 @@ const PropertyDetails = () => {
                                 "No description added."}
                         </Typography>
                     </Card>
-                </Grid>
+                </Grid >
 
                 {/* RIGHT */}
-                <Grid
+                < Grid
                     size={{
                         xs: 12,
                         md: 4,
@@ -567,7 +613,10 @@ const PropertyDetails = () => {
                 >
                     <Card
                         sx={{
-                            p: 4,
+                            p: {
+                                xs: 2.5,
+                                md: 4,
+                            },
 
                             borderRadius:
                                 "20px",
@@ -581,8 +630,11 @@ const PropertyDetails = () => {
                         }}
                     >
                         <Typography
-                            variant="h5"
                             sx={{
+                                fontSize: {
+                                    xs: "1.7rem",
+                                    md: "2.2rem",
+                                },
                                 fontWeight: 700,
 
                                 mb: 1,
@@ -622,9 +674,9 @@ const PropertyDetails = () => {
                                 : "Apply For Rent"}
                         </Button>
                     </Card>
-                </Grid>
-            </Grid>
-        </Container>
+                </Grid >
+            </Grid >
+        </Container >
     );
 };
 

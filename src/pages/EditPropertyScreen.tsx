@@ -4,6 +4,11 @@ import {
     Container,
     Button,
     Paper,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    IconButton,
 } from "@mui/material";
 
 import {
@@ -12,6 +17,7 @@ import {
 } from "react";
 
 import {
+    useNavigate,
     useParams,
 } from "react-router-dom";
 
@@ -21,6 +27,7 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import {
+    deleteProperty,
     uploadPropertyImages,
 } from "../services/propertyService";
 
@@ -30,6 +37,7 @@ import PropertyDetailsStep from "../components/AddProperty/Steps/PropertyDetails
 import UploadPhotosStep from "../components/AddProperty/Steps/UploadPhotosStep";
 import { useLoader } from "../context/LoaderContext";
 import { toast } from "react-toastify";
+import { DeleteOutlined } from "@mui/icons-material";
 
 const sections = [
     {
@@ -48,6 +56,7 @@ const sections = [
 
 const EditPropertyScreen = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const {
         showLoader,
         hideLoader,
@@ -55,6 +64,8 @@ const EditPropertyScreen = () => {
 
     const [selectedSection, setSelectedSection] =
         useState("basic");
+
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     const [formData, setFormData] =
         useState<any>({
@@ -72,6 +83,10 @@ const EditPropertyScreen = () => {
 
     useEffect(() => {
         fetchProperty();
+    }, []);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
     }, []);
 
     const fetchProperty = async () => {
@@ -217,146 +232,252 @@ const EditPropertyScreen = () => {
         }
     };
 
+    const handleDelete =
+        async () => {
+            if (!id) return;
+            showLoader();
+
+            await deleteProperty(id);
+
+            setOpenDeleteModal(false);
+            hideLoader();
+
+            navigate("/my-listings");
+        };
+
     return (
-        <Container
-            maxWidth={false}
-            sx={{
-                py: 4,
-                px: 4,
-            }}
-        >
-            <Box
+        <>
+            <Dialog
+                open={openDeleteModal}
+                onClose={() =>
+                    setOpenDeleteModal(false)
+                }
+            >
+                <DialogTitle>
+                    Delete Property
+                </DialogTitle>
+
+                <DialogContent>
+                    <Typography>
+                        Are you sure you want to
+                        delete this property?
+                        This action cannot be
+                        undone.
+                    </Typography>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button
+                        onClick={() =>
+                            setOpenDeleteModal(false)
+                        }
+                    >
+                        Cancel
+                    </Button>
+
+                    <Button
+                        color="error"
+                        variant="contained"
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Container
+                maxWidth={false}
                 sx={{
-                    display: "flex",
-                    gap: 4,
-                    alignItems: "flex-start",
+                    py: 4,
+                    px: {
+                        xs: 2,
+                        sm: 3,
+                        md: 4,
+                    },
                 }}
             >
-                {/* LEFT SIDEBAR */}
-                <Paper
-                    elevation={2}
+                <Box
                     sx={{
-                        width: "320px",
-                        p: 3,
-                        borderRadius: "20px",
-                        position: "sticky",
-                        top: 100,
-                    }}
-                >
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            fontWeight: "bold",
-                            mb: 3,
-                        }}
-                    >
-                        Edit Property
-                    </Typography>
-
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection:
-                                "column",
-                            gap: 2,
-                        }}
-                    >
-                        {sections.map(
-                            (section) => (
-                                <Box
-                                    key={
-                                        section.key
-                                    }
-                                    onClick={() =>
-                                        setSelectedSection(
-                                            section.key
-                                        )
-                                    }
-                                    sx={{
-                                        p: 2,
-                                        borderRadius:
-                                            "14px",
-                                        cursor: "pointer",
-                                        border:
-                                            selectedSection ===
-                                                section.key
-                                                ? "2px solid #1E3A8A"
-                                                : "1px solid #E2E8F0",
-                                        bgcolor:
-                                            selectedSection ===
-                                                section.key
-                                                ? "#EFF6FF"
-                                                : "white",
-                                        transition:
-                                            "0.2s",
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{
-                                            fontWeight: 600,
-                                        }}
-                                    >
-                                        {
-                                            section.title
-                                        }
-                                    </Typography>
-                                </Box>
-                            )
-                        )}
-                    </Box>
-                </Paper>
-
-                {/* RIGHT CONTENT */}
-                <Paper
-                    elevation={2}
-                    sx={{
-                        flex: 1,
-
-                        borderRadius: "20px",
-                        height: "80vh",
                         display: "flex",
-                        flexDirection: "column",
-                        overflow: "hidden",
+                        flexDirection: {
+                            xs: "column",
+                            md: "row",
+                        },
+                        gap: 4,
+                        alignItems: "flex-start",
                     }}
                 >
-                    <Box
+                    {/* LEFT SIDEBAR */}
+                    <Paper
+                        elevation={2}
                         sx={{
-                            flex: 1,
-                            overflowY: "auto",
-                            p: 4,
-                        }}
-                    >
-                        {renderSection()}
-                    </Box>
+                            width: {
+                                xs: "100%",
+                                md: "320px",
+                            },
+                            p: 3,
+                            borderRadius: "20px",
+                            position: {
+                                xs: "static",
+                                md: "sticky",
+                            },
 
-                    <Box
-                        sx={{
-                            mt: 0,
-                            display: "flex",
-                            justifyContent:
-                                "flex-end",
-                            pr: 5,
-                            pb: 4,
+                            top: 100,
                         }}
                     >
-                        <Button
-                            variant="contained"
-                            size="large"
-                            onClick={
-                                handleSave
-                            }
+                        <Box sx={{ display: 'flex', justifyContent: "space-between", alignItems: 'center', mb: 3 }}>
+                            <Typography
+                                sx={{
+                                    fontWeight: "bold",
+                                    fontSize: {
+                                        xs: "1.4rem",
+                                        md: "1.8rem",
+                                    },
+                                }}
+                            >
+                                Edit Property
+                            </Typography>
+                            <IconButton
+                                onClick={() =>
+                                    setOpenDeleteModal(true)
+                                }
+                                sx={{ color: 'red', cursor: 'pointer' }}
+                            >
+                                <DeleteOutlined />
+                            </IconButton>
+                        </Box>
+                        <Box
                             sx={{
-                                borderRadius:
-                                    "12px",
-                                px: 5,
+                                display: "flex",
+                                flexDirection: {
+                                    xs: "row",
+                                    md: "column",
+                                },
+                                gap: 2,
+                                overflowX: "auto",
+                                pb: 1,
                             }}
                         >
-                            Save Changes
-                        </Button>
-                    </Box>
-                </Paper>
-            </Box>
-        </Container>
+                            {sections?.map(
+                                (section) => (
+                                    <Box
+                                        key={
+                                            section?.key
+                                        }
+                                        onClick={() =>
+                                            setSelectedSection(
+                                                section?.key
+                                            )
+                                        }
+                                        sx={{
+                                            p: 2,
+                                            borderRadius:
+                                                "14px",
+                                            cursor: "pointer",
+                                            border:
+                                                selectedSection ===
+                                                    section?.key
+                                                    ? "2px solid #1E3A8A"
+                                                    : "1px solid #E2E8F0",
+                                            bgcolor:
+                                                selectedSection ===
+                                                    section?.key
+                                                    ? "#EFF6FF"
+                                                    : "white",
+                                            transition:
+                                                "0.2s",
+                                            minWidth: {
+                                                xs: "180px",
+                                                md: "auto",
+                                            },
+                                        }}
+                                    >
+                                        <Typography
+                                            sx={{
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            {
+                                                section?.title
+                                            }
+                                        </Typography>
+                                    </Box>
+                                )
+                            )}
+                        </Box>
+                    </Paper>
+
+                    {/* RIGHT CONTENT */}
+                    <Paper
+                        elevation={2}
+                        sx={{
+                            flex: 1,
+
+                            borderRadius: "20px",
+                            height: {
+                                xs: "auto",
+                                md: "80vh",
+                            },
+                            width: {
+                                xs: '100%',
+                                lg: 'auto'
+                            },
+                            display: "flex",
+                            flexDirection: "column",
+                            overflow: "hidden",
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                flex: 1,
+                                overflowY: "auto",
+                                p: {
+                                    xs: 2,
+                                    md: 4,
+                                },
+                            }}
+                        >
+                            {renderSection()}
+                        </Box>
+
+                        <Box
+                            sx={{
+                                mt: 0,
+                                display: "flex",
+                                justifyContent: {
+                                    xs: "stretch",
+                                    md: "flex-end",
+                                },
+                                pr: 5,
+                                pb: 4,
+                            }}
+                        >
+                            <Button
+                                variant="contained"
+                                size="large"
+                                onClick={
+                                    handleSave
+                                }
+                                sx={{
+                                    borderRadius:
+                                        "12px",
+                                    px: 5,
+                                    ml: {
+                                        xs: 4,
+                                        lg: 0
+                                    },
+                                    width: {
+                                        xs: "100%",
+                                        md: "auto",
+                                    },
+                                }}
+                            >
+                                Save Changes
+                            </Button>
+                        </Box>
+                    </Paper>
+                </Box>
+            </Container>
+        </>
     );
 };
 

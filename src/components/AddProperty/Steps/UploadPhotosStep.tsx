@@ -6,6 +6,7 @@ import {
 
 import UploadIcon from "@mui/icons-material/Upload";
 import { Close } from "@mui/icons-material";
+import { useEffect } from "react";
 
 interface UploadPhotosStepProps {
     formData: any;
@@ -50,6 +51,10 @@ const UploadPhotosStep = ({
         });
     };
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const handleRemoveImage = (
         indexToRemove: number
     ) => {
@@ -72,10 +77,13 @@ const UploadPhotosStep = ({
         <Box>
             {/* Heading */}
             <Typography
-                variant="h5"
                 sx={{
                     fontWeight: 600,
                     mb: 1,
+                    fontSize: {
+                        xs: "1.4rem",
+                        md: "1.8rem",
+                    },
                 }}
             >
                 Upload Photos
@@ -85,6 +93,10 @@ const UploadPhotosStep = ({
                 sx={{
                     color: "#64748B",
                     mb: 4,
+                    fontSize: {
+                        xs: "14px",
+                        md: "16px",
+                    },
                 }}
             >
                 Add high quality photos
@@ -99,7 +111,14 @@ const UploadPhotosStep = ({
 
                     borderRadius: "24px",
 
-                    minHeight: "320px",
+                    minHeight: {
+                        xs: "220px",
+                        md: "320px",
+                    },
+                    p: {
+                        xs: 2,
+                        md: 4,
+                    },
 
                     display: "flex",
 
@@ -143,16 +162,22 @@ const UploadPhotosStep = ({
                 >
                     <UploadIcon
                         sx={{
-                            fontSize: 64,
+                            fontSize: {
+                                xs: 48,
+                                md: 64,
+                            },
                             color: "#1E3A8A",
                             mb: 2,
                         }}
                     />
 
                     <Typography
-                        variant="h6"
                         sx={{
                             fontWeight: 600,
+                            fontSize: {
+                                xs: "1rem",
+                                md: "1.25rem",
+                            },
                         }}
                     >
                         Upload Property Photos
@@ -178,6 +203,10 @@ const UploadPhotosStep = ({
                             gap: 2,
                             mt: 4,
                             flexWrap: "wrap",
+                            justifyContent: {
+                                xs: "center",
+                                md: "flex-start",
+                            },
                         }}
                     >
                         {formData.images.map(
@@ -188,8 +217,14 @@ const UploadPhotosStep = ({
                                 <Box
                                     key={index}
                                     sx={{
-                                        width: 140,
-                                        height: 140,
+                                        width: {
+                                            xs: 110,
+                                            sm: 140,
+                                        },
+                                        height: {
+                                            xs: 110,
+                                            sm: 140,
+                                        },
                                         borderRadius:
                                             "18px",
                                         overflow:

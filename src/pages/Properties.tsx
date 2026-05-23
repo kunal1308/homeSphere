@@ -72,14 +72,22 @@ const Properties = () => {
             maxWidth={false}
             sx={{
                 py: 6,
-                px: 6,
+                px: {
+                    xs: 2,
+                    sm: 3,
+                    md: 6,
+                },
             }}
         >
             <Typography
-                variant="h4"
                 sx={{
                     fontWeight: "bold",
                     mb: 4,
+                    fontSize: {
+                        xs: "1.8rem",
+                        sm: "2.2rem",
+                        md: "2.6rem",
+                    },
                 }}
             >
                 Available Properties
@@ -90,6 +98,9 @@ const Properties = () => {
                     gap: 2,
                     mb: 4,
                     flexWrap: "wrap",
+                    justifyContent: {
+                        xs: "flex-start",
+                    },
                 }}
             >
                 {[
@@ -155,7 +166,10 @@ const Properties = () => {
                     display: "flex",
                     flexWrap: "wrap",
                     gap: 4,
-                    justifyContent: "flex-start",
+                    justifyContent: {
+                        xs: "center",
+                        md: "flex-start",
+                    },
                 }}
             >
                 {paginatedProperties?.length > 0 ?
@@ -164,7 +178,12 @@ const Properties = () => {
                             <Box
                                 key={property?.id}
                                 sx={{
-                                    width: "350px",
+                                    width: {
+                                        xs: "100%",
+                                        sm: "100%",
+                                        md: "320px",
+                                        lg: "330px",
+                                    },
                                 }}
                             >
                                 <PropertyCard

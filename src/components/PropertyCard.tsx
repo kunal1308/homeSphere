@@ -39,7 +39,13 @@ const PropertyCard = ({
             />
 
             <CardContent>
-                <Typography variant="h6" sx={{ fontWeight: 500 }}>
+                <Typography sx={{
+                    fontWeight: 500,
+                    fontSize: {
+                        xs: "1rem",
+                        sm: "1.15rem",
+                    }
+                }}>
                     {property?.title}
                 </Typography>
 
@@ -65,8 +71,14 @@ const PropertyCard = ({
 
                 <Box sx={{ mt: 1 }}>
                     <Typography
-                        variant="h6"
-                        sx={{ fontWeight: 500, color: "primary" }}
+
+                        sx={{
+                            fontWeight: 500, color: "primary",
+                            fontSize: {
+                                xs: "1rem",
+                                sm: "1.15rem",
+                            }
+                        }}
                     >
                         ₹ {Number(
                             property?.price
@@ -78,7 +90,10 @@ const PropertyCard = ({
                     sx={{
                         mt: 1.5,
                         display: "flex",
-                        gap: 3,
+                        gap: {
+                            xs: 1.5,
+                            sm: 3,
+                        },
                         alignItems: "center",
                         flexWrap: "wrap",
                     }}
@@ -90,7 +105,7 @@ const PropertyCard = ({
                                 sx={{
                                     display: "flex",
                                     alignItems: "center",
-                                    gap: 1,
+                                    gap: 0.5,
                                 }}
                             >
                                 <Business
@@ -111,7 +126,7 @@ const PropertyCard = ({
                                 sx={{
                                     display: "flex",
                                     alignItems: "center",
-                                    gap: 1,
+                                    gap: 0.5,
                                 }}
                             >
                                 <SquareFoot
@@ -133,7 +148,7 @@ const PropertyCard = ({
                                 sx={{
                                     display: "flex",
                                     alignItems: "center",
-                                    gap: 1,
+                                    gap: 0.5,
                                 }}
                             >
                                 <DirectionsCar
@@ -157,7 +172,7 @@ const PropertyCard = ({
                                 sx={{
                                     display: "flex",
                                     alignItems: "center",
-                                    gap: 1,
+                                    gap: 0.5,
                                 }}
                             >
                                 <Bed
@@ -179,7 +194,7 @@ const PropertyCard = ({
                                 sx={{
                                     display: "flex",
                                     alignItems: "center",
-                                    gap: 1,
+                                    gap: 0.5,
                                 }}
                             >
                                 <Bathtub

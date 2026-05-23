@@ -46,14 +46,18 @@ const PropertyDetailsStep = ({
         <Box
             sx={{
                 maxWidth: "950px",
+                width: "100%",
             }}
         >
             {/* Heading */}
             <Typography
-                variant="h5"
                 sx={{
                     fontWeight: 600,
                     mb: 1,
+                    fontSize: {
+                        xs: "1.4rem",
+                        md: "1.8rem",
+                    },
                 }}
             >
                 Property Details
@@ -63,6 +67,10 @@ const PropertyDetailsStep = ({
                 sx={{
                     color: "#64748B",
                     mb: 4,
+                    fontSize: {
+                        xs: "14px",
+                        md: "16px",
+                    },
                 }}
             >
                 Add more details
@@ -73,9 +81,14 @@ const PropertyDetailsStep = ({
             <Box
                 sx={{
                     display: "grid",
-                    gridTemplateColumns:
-                        "repeat(2, 1fr)",
-                    gap: 3,
+                    gridTemplateColumns: {
+                        xs: "1fr",
+                        md: "repeat(2, 1fr)",
+                    },
+                    gap: {
+                        xs: 2,
+                        md: 3,
+                    },
                 }}
             >
                 {/* Area */}
@@ -91,9 +104,16 @@ const PropertyDetailsStep = ({
 
                     <TextField
                         fullWidth
-                        type="number"
+                        type="text"
+                        slotProps={{
+                            htmlInput: {
+                                maxLength: 8,
+                                inputMode: "numeric",
+                                pattern: "[0-9]*",
+                            },
+                        }}
                         placeholder="Enter area"
-                        value={formData.area}
+                        value={formData?.area}
                         onChange={(e) =>
                             handleChange(
                                 "area",
@@ -127,7 +147,7 @@ const PropertyDetailsStep = ({
                             select
                             fullWidth
                             value={
-                                formData.furnishing
+                                formData?.furnishing
                             }
                             onChange={(e) =>
                                 handleChange(
@@ -174,7 +194,7 @@ const PropertyDetailsStep = ({
                         select
                         fullWidth
                         value={
-                            formData.availability
+                            formData?.availability
                         }
                         onChange={(e) =>
                             handleChange(
@@ -219,7 +239,7 @@ const PropertyDetailsStep = ({
                         select
                         fullWidth
                         value={
-                            formData.parking
+                            formData?.parking
                         }
                         onChange={(e) =>
                             handleChange(
@@ -246,7 +266,7 @@ const PropertyDetailsStep = ({
                     </TextField>
                 </Box>
 
-                {formData.commercialType ===
+                {formData?.commercialType ===
                     "Office" && (
                         <>
                             <Box>
@@ -261,9 +281,16 @@ const PropertyDetailsStep = ({
 
                                 <TextField
                                     fullWidth
-                                    type="number"
+                                    type="text"
+                                    slotProps={{
+                                        htmlInput: {
+                                            maxLength: 2,
+                                            inputMode: "numeric",
+                                            pattern: "[0-9]*",
+                                        },
+                                    }}
                                     value={
-                                        formData.cabins
+                                        formData?.cabins
                                     }
                                     onChange={(e) =>
                                         handleChange(
@@ -294,9 +321,16 @@ const PropertyDetailsStep = ({
 
                                 <TextField
                                     fullWidth
-                                    type="number"
+                                    type="text"
+                                    slotProps={{
+                                        htmlInput: {
+                                            maxLength: 2,
+                                            inputMode: "numeric",
+                                            pattern: "[0-9]*",
+                                        },
+                                    }}
                                     value={
-                                        formData.workstations
+                                        formData?.workstations
                                     }
                                     onChange={(e) =>
                                         handleChange(
@@ -317,7 +351,7 @@ const PropertyDetailsStep = ({
                         </>
                     )}
 
-                {formData.commercialType ===
+                {formData?.commercialType ===
                     "Shop" && (
                         <>
                             <Box>
@@ -332,9 +366,16 @@ const PropertyDetailsStep = ({
 
                                 <TextField
                                     fullWidth
-                                    type="number"
+                                    type="text"
+                                    slotProps={{
+                                        htmlInput: {
+                                            maxLength: 2,
+                                            inputMode: "numeric",
+                                            pattern: "[0-9]*",
+                                        },
+                                    }}
                                     value={
-                                        formData.floorNumber
+                                        formData?.floorNumber
                                     }
                                     onChange={(e) =>
                                         handleChange(
@@ -367,7 +408,7 @@ const PropertyDetailsStep = ({
                                     select
                                     fullWidth
                                     value={
-                                        formData.mainRoadFacing
+                                        formData?.mainRoadFacing
                                     }
                                     onChange={(e) =>
                                         handleChange(
@@ -396,7 +437,7 @@ const PropertyDetailsStep = ({
                         </>
                     )}
 
-                {formData.commercialType ===
+                {formData?.commercialType ===
                     "Warehouse" && (
                         <>
                             <Box>
@@ -413,7 +454,7 @@ const PropertyDetailsStep = ({
                                     fullWidth
                                     placeholder="e.g. 24 ft"
                                     value={
-                                        formData.ceilingHeight
+                                        formData?.ceilingHeight
                                     }
                                     onChange={(e) =>
                                         handleChange(
@@ -446,7 +487,7 @@ const PropertyDetailsStep = ({
                                     select
                                     fullWidth
                                     value={
-                                        formData.truckAccess
+                                        formData?.truckAccess
                                     }
                                     onChange={(e) =>
                                         handleChange(
@@ -475,7 +516,7 @@ const PropertyDetailsStep = ({
                         </>
                     )}
 
-                {formData.commercialType ===
+                {formData?.commercialType ===
                     "Showroom" && (
                         <>
                             <Box>
@@ -492,7 +533,7 @@ const PropertyDetailsStep = ({
                                     fullWidth
                                     placeholder="e.g. 20 ft"
                                     value={
-                                        formData.frontage
+                                        formData?.frontage
                                     }
                                     onChange={(e) =>
                                         handleChange(
@@ -525,7 +566,7 @@ const PropertyDetailsStep = ({
                                     select
                                     fullWidth
                                     value={
-                                        formData.visitorParking
+                                        formData?.visitorParking
                                     }
                                     onChange={(e) =>
                                         handleChange(
@@ -554,7 +595,7 @@ const PropertyDetailsStep = ({
                         </>
                     )}
 
-                {formData.commercialType ===
+                {formData?.commercialType ===
                     "Coworking Space" && (
                         <>
                             <Box>
@@ -569,9 +610,16 @@ const PropertyDetailsStep = ({
 
                                 <TextField
                                     fullWidth
-                                    type="number"
+                                    type="text"
+                                    slotProps={{
+                                        htmlInput: {
+                                            maxLength: 2,
+                                            inputMode: "numeric",
+                                            pattern: "[0-9]*",
+                                        },
+                                    }}
                                     value={
-                                        formData.seatingCapacity
+                                        formData?.seatingCapacity
                                     }
                                     onChange={(e) =>
                                         handleChange(
@@ -602,9 +650,16 @@ const PropertyDetailsStep = ({
 
                                 <TextField
                                     fullWidth
-                                    type="number"
+                                    type="text"
+                                    slotProps={{
+                                        htmlInput: {
+                                            maxLength: 2,
+                                            inputMode: "numeric",
+                                            pattern: "[0-9]*",
+                                        },
+                                    }}
                                     value={
-                                        formData.meetingRooms
+                                        formData?.meetingRooms
                                     }
                                     onChange={(e) =>
                                         handleChange(
@@ -628,8 +683,10 @@ const PropertyDetailsStep = ({
                 {/* Description */}
                 <Box
                     sx={{
-                        gridColumn:
-                            "1 / -1",
+                        gridColumn: {
+                            xs: "auto",
+                            md: "1 / -1",
+                        },
                     }}
                 >
                     <Typography
@@ -647,7 +704,7 @@ const PropertyDetailsStep = ({
                         rows={5}
                         placeholder="Describe your property..."
                         value={
-                            formData.description
+                            formData?.description
                         }
                         onChange={(e) =>
                             handleChange(

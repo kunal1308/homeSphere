@@ -5,6 +5,7 @@ import {
 } from "@mui/material";
 
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useEffect } from "react";
 
 interface SuccessStepProps {
   handleClose: () => void;
@@ -13,6 +14,11 @@ interface SuccessStepProps {
 const SuccessStep = ({
   handleClose,
 }: SuccessStepProps) => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Box
       sx={{
@@ -28,28 +34,50 @@ const SuccessStep = ({
 
         textAlign: "center",
 
-        px: 4,
+        px: {
+          xs: 2,
+          md: 4,
+        },
       }}
     >
       {/* Icon */}
       <CheckCircleIcon
         sx={{
+          display: {
+            xs: "none",
+            md: "block",
+          },
+
           fontSize: 100,
+
           color: "#1E3A8A",
+
           mb: 3,
         }}
       />
 
       {/* Heading */}
       <Typography
-        variant="h4"
         sx={{
           fontWeight: "bold",
 
           mb: 2,
+
+          mt: {
+            xs: 2,
+            md: 0,
+          },
+
+          fontSize: {
+            xs: "2rem",
+            md: "3rem",
+          },
+
+          lineHeight: 1.2,
         }}
       >
-        Property Listed Successfully!
+        Property Listed
+        Successfully!
       </Typography>
 
       {/* Subtitle */}
@@ -61,7 +89,12 @@ const SuccessStep = ({
 
           mb: 5,
 
-          fontSize: "17px",
+          lineHeight: 1.8,
+
+          fontSize: {
+            xs: "15px",
+            md: "17px",
+          },
         }}
       >
         Your property has been
@@ -81,6 +114,11 @@ const SuccessStep = ({
           px: 5,
 
           py: 1.5,
+
+          width: {
+            xs: "100%",
+            sm: "auto",
+          },
 
           borderRadius: "14px",
 
