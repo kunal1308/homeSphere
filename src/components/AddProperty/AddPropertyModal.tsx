@@ -243,7 +243,7 @@ const AddPropertyModal = ({
                     },
 
                     height: {
-                        xs: "95vh",
+                        xs: "85vh",
                         md: "80vh",
                     },
 

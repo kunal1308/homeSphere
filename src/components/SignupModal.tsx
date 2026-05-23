@@ -208,7 +208,7 @@ const SignupModal = ({
                     borderRadius: "24px",
                     mx: "auto",
                     mt: {
-                        xs: "3vh",
+                        xs: "1vh",
                         md: "10vh",
                     },
                 }}
