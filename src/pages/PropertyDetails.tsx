@@ -251,6 +251,7 @@ const PropertyDetails = () => {
                 >
                     <Box
                         component="img"
+                        alt={`${property?.title || property?.name || "Property"} photo`}
                         src={
                             property?.images?.[0]
                         }
@@ -295,6 +296,7 @@ const PropertyDetails = () => {
                                             <Box
                                                 key={index}
                                                 component="img"
+                                                alt={`${property?.title || property?.name || "Property"} photo ${index + 2}`}
                                                 src={img}
                                                 sx={{
                                                     width:

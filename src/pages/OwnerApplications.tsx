@@ -154,6 +154,7 @@ const OwnerApplications =
                                 >
                                     <Box
                                         component="img"
+                                        alt={application?.propertyName || "Property image"}
                                         src={
                                             application?.propertyImage
                                         }

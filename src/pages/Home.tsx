@@ -56,12 +56,13 @@ const Home = () => {
                 fontWeight: 800,
 
                 fontSize: {
-                  xs: "2.3rem",
-                  sm: "3rem",
-                  md: "5rem",
+                  xs: "2.1rem",
+                  sm: "2.6rem",
+                  md: "3.25rem",
+                  lg: "3.75rem",
                 },
 
-                lineHeight: 1.1,
+                lineHeight: 1.15,
 
                 mb: 4,
               }}
@@ -346,6 +347,7 @@ const Home = () => {
             >
               <Box
                 component="img"
+                alt="Tenant browsing verified rental properties on HomeSphere"
                 src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200"
                 sx={{
                   width: "100%",
@@ -361,6 +363,7 @@ const Home = () => {
 
               <Typography
                 variant="h4"
+                component="h2"
                 sx={{
                   fontWeight: 700,
 
@@ -418,6 +421,7 @@ const Home = () => {
             >
               <Box
                 component="img"
+                alt="Property owner listing a home on HomeSphere"
                 src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200"
                 sx={{
                   width: "100%",
@@ -433,6 +437,7 @@ const Home = () => {
 
               <Typography
                 variant="h4"
+                component="h2"
                 sx={{
                   fontWeight: 700,
 
@@ -592,6 +597,7 @@ const FeatureCard = ({
 
       <Typography
         variant="h5"
+        component="h2"
         sx={{
           fontWeight: 700,
 

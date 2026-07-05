@@ -30,3 +30,10 @@ ReactDOM.createRoot(
     </ThemeProvider>
   </React.StrictMode>
 );
+
+// Register service worker for installable PWA (offline + Add to Home Screen)
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
+  });
+}

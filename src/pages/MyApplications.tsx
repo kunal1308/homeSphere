@@ -120,6 +120,7 @@ const MyApplications = () => {
                             >
                                 <Box
                                     component="img"
+                                    alt={application?.propertyName || "Property image"}
                                     src={
                                         application?.propertyImage
                                     }
