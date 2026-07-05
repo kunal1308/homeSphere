@@ -60,6 +60,7 @@ const Footer = () => {
                     >
                         <Typography
                             variant="h4"
+                            component="h2"
                             sx={{
                                 fontWeight: 800,
 
@@ -139,6 +140,7 @@ const Footer = () => {
                     <Box>
                         <Typography
                             variant="h6"
+                            component="h3"
                             sx={{
                                 fontWeight: 700,
 
@@ -235,6 +237,7 @@ const FooterSection = ({
         <Box>
             <Typography
                 variant="h6"
+                component="h3"
                 sx={{
                     fontWeight: 700,
 
