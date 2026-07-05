@@ -1,0 +1,36 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // USERS — each user can create/read/update only their own profile document
+    match /users/{userId} {
+      allow read:   if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update: if request.auth != null && request.auth.uid == userId;
+      allow delete: if false;
+    }
+
+    // PROPERTIES — public read (browse listings); any signed-in user can create;
+    // only the owner (matched via ownerId) can update or delete
+    match /properties/{propertyId} {
+      allow read:          if true;
+      allow create:        if request.auth != null;
+      allow update, delete: if request.auth != null
+                            && resource.data.ownerId == request.auth.uid;
+    }
+
+    // APPLICATIONS — a tenant creates their own application; the tenant and the
+    // property owner can read it; only the owner can update its status
+    match /applications/{applicationId} {
+      allow read:   if request.auth != null
+                    && (resource.data.tenantId == request.auth.uid
+                        || resource.data.ownerId == request.auth.uid);
+      allow create: if request.auth != null
+                    && request.resource.data.tenantId == request.auth.uid;
+      allow update: if request.auth != null
+                    && resource.data.ownerId == request.auth.uid;
+      allow delete: if false;
+    }
+  }
+}
