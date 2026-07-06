@@ -1,6 +1,7 @@
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    sendPasswordResetEmail,
     signOut,
     updateProfile,
 } from "firebase/auth";
@@ -82,4 +83,15 @@ export const loginUser = async (
 
 export const logoutUser = async () => {
     return await signOut(auth);
+};
+
+// Send a password-reset email. Firebase hosts the reset page and handles the
+// actual password change.
+export const resetPassword = async (
+    email: string
+) => {
+    return await sendPasswordResetEmail(
+        auth,
+        email
+    );
 };

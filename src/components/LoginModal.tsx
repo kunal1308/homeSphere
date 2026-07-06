@@ -10,7 +10,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 
-import { loginUser, getUserData } from "../services/authService";
+import { loginUser, getUserData, resetPassword } from "../services/authService";
 import { toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
@@ -100,6 +100,45 @@ const LoginModal = ({
             [field]: error,
         }));
     };
+
+    const handleForgotPassword =
+        async () => {
+            // Only the email is needed to send a reset link.
+            if (!email.trim()) {
+                setErrors((prev: any) => ({
+                    ...prev,
+                    email: "Enter your email to reset password",
+                }));
+                return;
+            }
+            if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)
+            ) {
+                setErrors((prev: any) => ({
+                    ...prev,
+                    email: "Enter valid email address",
+                }));
+                return;
+            }
+
+            showLoader();
+            try {
+                await resetPassword(email);
+                toast.success(
+                    "Password reset link sent to your email"
+                );
+            } catch (error: any) {
+                if (
+                    error.code === "auth/user-not-found"
+                ) {
+                    toast.error("User not found");
+                } else {
+                    toast.error(error.message);
+                }
+            } finally {
+                hideLoader();
+            }
+        };
 
     const handleLogin = async () => {
         showLoader();
@@ -374,6 +413,27 @@ const LoginModal = ({
                             );
                         }}
                     />
+
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            mt: -2,
+                            mb: 3,
+                        }}
+                    >
+                        <Button
+                            variant="text"
+                            size="small"
+                            onClick={handleForgotPassword}
+                            sx={{
+                                textTransform: "none",
+                                fontWeight: 600,
+                            }}
+                        >
+                            Forgot password?
+                        </Button>
+                    </Box>
 
                     <Button
                         variant="contained"
