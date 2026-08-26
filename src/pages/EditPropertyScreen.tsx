@@ -178,7 +178,7 @@ const EditPropertyScreen = () => {
                 );
 
                 toast.success(
-                    "Property updated successfully"
+                    "Property details updated successfully"
                 );
             } catch (error) {
                 console.log(error);
