@@ -7,6 +7,7 @@ import {
     IconButton,
     Card,
     CardActionArea,
+    InputAdornment,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -16,6 +17,7 @@ import { registerUser } from "../services/authService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useLoader } from "../context/LoaderContext";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface SignupModalProps {
     open: boolean;
@@ -38,7 +40,7 @@ const SignupModal = ({
         useState("");
     const [role, setRole] = useState("");
     const [errors, setErrors] = useState<any>({});
-
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const validateForm = () => {
         const newErrors: any = {};
@@ -75,6 +77,12 @@ const SignupModal = ({
         return Object.keys(newErrors).length === 0;
     };
 
+    const handleModalClose = () => {
+        setShowPassword(false);
+        setErrors({});
+        handleClose();
+    };
+
     const handleSignup = async () => {
         showLoader();
         try {
@@ -95,7 +103,7 @@ const SignupModal = ({
                 navigate("/my-listings");
             }
 
-            handleClose();
+            handleModalClose();
 
             // Reset fields
             setName("");
@@ -176,12 +184,19 @@ const SignupModal = ({
         }));
     };
 
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        handleSignup();
+    };
+
     return (
         <Modal
             open={open}
-            onClose={handleClose}
+            onClose={handleModalClose}
         >
             <Box
+                component='form'
+                onSubmit={handleSubmit}
                 sx={{
                     width: {
                         xs: "95%",
@@ -338,7 +353,7 @@ const SignupModal = ({
                     }}
                 >
                     <IconButton
-                        onClick={handleClose}
+                        onClick={handleModalClose}
                         sx={{
                             position: "absolute",
                             top: 20,
@@ -498,7 +513,7 @@ const SignupModal = ({
                     <TextField
                         fullWidth
                         label="Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         error={!!errors.password}
                         helperText={errors.password}
                         sx={{ mb: 4 }}
@@ -510,13 +525,29 @@ const SignupModal = ({
                                 e.target.value
                             );
                         }}
+                        slotProps={{
+                            input: {
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={() => setShowPassword((prev) => !prev)}
+                                            onMouseDown={(e) => e.preventDefault()}
+                                            edge="end"
+                                            aria-label={showPassword ? "Hide password" : "Show password"}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            },
+                        }}
                     />
 
                     <Button
                         variant="contained"
                         size="large"
                         fullWidth
-                        onClick={handleSignup}
+                        type="submit"
                         sx={{
                             py: 1.5,
                             borderRadius: "12px",

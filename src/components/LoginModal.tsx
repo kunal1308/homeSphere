@@ -5,6 +5,7 @@ import {
     TextField,
     Button,
     IconButton,
+    InputAdornment,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,6 +16,7 @@ import { toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
 import { useLoader } from "../context/LoaderContext";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface LoginModalProps {
     open: boolean;
@@ -34,6 +36,7 @@ const LoginModal = ({
     const [password, setPassword] =
         useState("");
     const [errors, setErrors] = useState<any>({});
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const validateForm = () => {
         const newErrors: any = {};
@@ -60,6 +63,12 @@ const LoginModal = ({
         setErrors(newErrors);
 
         return Object.keys(newErrors).length === 0;
+    };
+
+    const handleModalClose = () => {
+        setShowPassword(false);
+        setErrors({});
+        handleClose();
     };
 
     const validateField = (
@@ -159,7 +168,7 @@ const LoginModal = ({
                 "Login Successful"
             );
 
-            handleClose();
+            handleModalClose();
 
             setEmail("");
             setPassword("");
@@ -200,12 +209,19 @@ const LoginModal = ({
         }
     };
 
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        handleLogin();
+    };
+
     return (
         <Modal
             open={open}
-            onClose={handleClose}
+            onClose={handleModalClose}
         >
             <Box
+                component="form"
+                onSubmit={handleSubmit}
                 sx={{
                     width: {
                         xs: "95%",
@@ -358,7 +374,7 @@ const LoginModal = ({
                     }}
                 >
                     <IconButton
-                        onClick={handleClose}
+                        onClick={handleModalClose}
                         sx={{
                             position: "absolute",
                             top: 20,
@@ -400,7 +416,7 @@ const LoginModal = ({
                     <TextField
                         fullWidth
                         label="Password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         error={!!errors.password}
                         helperText={errors.password}
                         sx={{ mb: 4 }}
@@ -411,6 +427,22 @@ const LoginModal = ({
                                 "password",
                                 e.target.value
                             );
+                        }}
+                        slotProps={{
+                            input: {
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            onClick={() => setShowPassword((prev) => !prev)}
+                                            onMouseDown={(e) => e.preventDefault()}
+                                            edge="end"
+                                            aria-label={showPassword ? "Hide password" : "Show password"}
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            },
                         }}
                     />
 
@@ -438,7 +470,7 @@ const LoginModal = ({
                     <Button
                         variant="contained"
                         size="large"
-                        onClick={handleLogin}
+                        type="submit"
                         sx={{
                             py: 1.5,
                             borderRadius: "12px",
