@@ -117,7 +117,10 @@ const PropertyDetailsStep = ({
                         onChange={(e) =>
                             handleChange(
                                 "area",
-                                e.target.value
+                                e.target.value.replace(
+                                    /\D/g,
+                                    ""
+                                )
                             )
                         }
                         sx={{
@@ -295,7 +298,10 @@ const PropertyDetailsStep = ({
                                     onChange={(e) =>
                                         handleChange(
                                             "cabins",
-                                            e.target.value
+                                            e.target.value.replace(
+                                                /\D/g,
+                                                ""
+                                            )
                                         )
                                     }
                                     sx={{
@@ -335,7 +341,10 @@ const PropertyDetailsStep = ({
                                     onChange={(e) =>
                                         handleChange(
                                             "workstations",
-                                            e.target.value
+                                            e.target.value.replace(
+                                                /\D/g,
+                                                ""
+                                            )
                                         )
                                     }
                                     sx={{
@@ -380,7 +389,10 @@ const PropertyDetailsStep = ({
                                     onChange={(e) =>
                                         handleChange(
                                             "floorNumber",
-                                            e.target.value
+                                            e.target.value.replace(
+                                                /\D/g,
+                                                ""
+                                            )
                                         )
                                     }
                                     sx={{
@@ -624,7 +636,10 @@ const PropertyDetailsStep = ({
                                     onChange={(e) =>
                                         handleChange(
                                             "seatingCapacity",
-                                            e.target.value
+                                            e.target.value.replace(
+                                                /\D/g,
+                                                ""
+                                            )
                                         )
                                     }
                                     sx={{
@@ -664,7 +679,10 @@ const PropertyDetailsStep = ({
                                     onChange={(e) =>
                                         handleChange(
                                             "meetingRooms",
-                                            e.target.value
+                                            e.target.value.replace(
+                                                /\D/g,
+                                                ""
+                                            )
                                         )
                                     }
                                     sx={{

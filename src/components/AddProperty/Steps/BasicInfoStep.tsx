@@ -178,7 +178,10 @@ const BasicInfoStep = ({
                         onChange={(e) =>
                             handleChange(
                                 "price",
-                                e.target.value
+                                e.target.value.replace(
+                                    /\D/g,
+                                    ""
+                                )
                             )
                         }
                         sx={{
@@ -273,20 +276,15 @@ const BasicInfoStep = ({
                             value={
                                 formData.bedrooms
                             }
-                            onChange={(e) => {
-                                const value =
-                                    Math.max(
-                                        0,
-                                        Number(
-                                            e.target.value
-                                        )
-                                    );
-
+                            onChange={(e) =>
                                 handleChange(
                                     "bedrooms",
-                                    value?.toString()
-                                );
-                            }}
+                                    e.target.value.replace(
+                                        /\D/g,
+                                        ""
+                                    )
+                                )
+                            }
                             onWheel={(e) =>
                                 (
                                     e.target as HTMLElement
@@ -333,20 +331,15 @@ const BasicInfoStep = ({
                             value={
                                 formData.bathrooms
                             }
-                            onChange={(e) => {
-                                const value =
-                                    Math.max(
-                                        0,
-                                        Number(
-                                            e.target.value
-                                        )
-                                    );
-
+                            onChange={(e) =>
                                 handleChange(
                                     "bathrooms",
-                                    value?.toString()
-                                );
-                            }}
+                                    e.target.value.replace(
+                                        /\D/g,
+                                        ""
+                                    )
+                                )
+                            }
                             onWheel={(e) =>
                                 (
                                     e.target as HTMLElement

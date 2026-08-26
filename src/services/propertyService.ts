@@ -81,10 +81,23 @@ export const deleteProperty = async (
 
 export const getProperties =
     async () => {
+        // Only published listings —
+        // drafts stay hidden
+        const q = query(
+            collection(
+                db,
+                "properties"
+            ),
+
+            where(
+                "status",
+                "==",
+                "published"
+            )
+        );
+
         const querySnapshot =
-            await getDocs(
-                collection(db, "properties")
-            );
+            await getDocs(q);
 
         const properties: any[] = [];
 
@@ -129,11 +142,6 @@ export const uploadPropertyImages =
         files: File[]
     ) => {
         try {
-            console.log(
-                "FILES:",
-                files
-            );
-
             const urls =
                 await Promise.all(
                     files.map(
@@ -151,11 +159,6 @@ export const uploadPropertyImages =
                                 "homesphere_upload"
                             );
 
-                            console.log(
-                                "UPLOADING:",
-                                file.name
-                            );
-
                             const response =
                                 await fetch(
                                     "https://api.cloudinary.com/v1_1/dly7cq42h/image/upload",
@@ -170,25 +173,15 @@ export const uploadPropertyImages =
                             const data =
                                 await response.json();
 
-                            console.log(
-                                "CLOUDINARY RESPONSE:",
-                                data
-                            );
-
                             return data.secure_url;
                         }
                     )
                 );
 
-            console.log(
-                "FINAL URLS:",
-                urls
-            );
-
             return urls;
         } catch (error) {
-            console.log(
-                "UPLOAD ERROR:",
+            console.error(
+                "Image upload failed:",
                 error
             );
 

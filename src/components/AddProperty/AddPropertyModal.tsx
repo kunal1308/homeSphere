@@ -55,9 +55,10 @@ const AddPropertyModal = ({
 
             bedrooms: "",
             bathrooms: "",
+            commercialType: "",
             description: "",
 
-            images: [],
+            images: [] as File[],
         });
 
     // Steps
@@ -97,6 +98,48 @@ const AddPropertyModal = ({
     const activeStep =
         steps[currentStep];
 
+    // Next stays disabled until the
+    // current step's required fields
+    // are filled
+    const isStepIncomplete = () => {
+        switch (activeStep?.key) {
+            case "property-type":
+                return !domain;
+
+            case "basic-info": {
+                if (
+                    !formData.title.trim() ||
+                    !formData.location.trim() ||
+                    !formData.price
+                )
+                    return true;
+
+                if (
+                    domain === "residential" &&
+                    (!formData.bedrooms ||
+                        !formData.bathrooms)
+                )
+                    return true;
+
+                if (
+                    domain === "commercial" &&
+                    !formData.commercialType
+                )
+                    return true;
+
+                return false;
+            }
+
+            case "photos":
+                return (
+                    formData.images.length === 0
+                );
+
+            default:
+                return false;
+        }
+    };
+
     const progress =
         ((currentStep + 1) /
             steps?.length) *
@@ -130,7 +173,7 @@ const AddPropertyModal = ({
                         currentStep + 1,
                 };
 
-                // CREATE DRAFT
+                // CREATE DRAFT (first step)
                 if (!propertyId) {
                     const newId =
                         await createDraftProperty(
@@ -140,30 +183,12 @@ const AddPropertyModal = ({
                     setPropertyId(newId);
                 }
 
-                // UPDATE DRAFT
-                else {
-                    const imageUrls =
-                        await uploadPropertyImages(
-                            formData?.images
-                        );
-
-                    await updateDraftProperty(
-                        propertyId,
-                        {
-                            ...payload,
-
-                            images: imageUrls,
-
-                            status:
-                                "published",
-                        }
-                    );
-                }
-
-                // FINAL SUBMIT
-                if (
-                    currentStep ===
-                    steps?.length - 1
+                // PUBLISH (leaving the photos
+                // step): upload images once,
+                // then mark as published
+                else if (
+                    activeStep?.key ===
+                    "photos"
                 ) {
                     const imageUrls =
                         await uploadPropertyImages(
@@ -181,10 +206,16 @@ const AddPropertyModal = ({
                                 "published",
                         }
                     );
+                }
 
-                    handleModalClose();
-
-                    return;
+                // SAVE DRAFT (intermediate
+                // steps): no upload, stays
+                // a draft until published
+                else {
+                    await updateDraftProperty(
+                        propertyId,
+                        payload
+                    );
                 }
 
                 // NEXT STEP
@@ -213,12 +244,15 @@ const AddPropertyModal = ({
 
         setDomain("");
 
+        setPropertyId("");
+
         setFormData({
             title: "",
             location: "",
             price: "",
             bedrooms: "",
             bathrooms: "",
+            commercialType: "",
             description: "",
             images: [],
         });
@@ -503,66 +537,70 @@ const AddPropertyModal = ({
                     {activeStep?.key ===
                         "review" && (
                             <SuccessStep
-                                handleClose={handleClose}
+                                handleClose={handleModalClose}
                             />
                         )}
                 </Box>
 
-                {/* Footer */}
-                <Box
-                    sx={{
-                        p: 3,
-                        borderTop: "1px solid #E2E8F0",
-                        display: "flex",
-                        flexDirection: {
-                            xs: "column",
-                            sm: "row",
-                        },
-                        gap: 2,
-                        justifyContent:
-                            "space-between",
-                    }}
-                >
-                    <Button
-                        disabled={
-                            currentStep === 0
-                        }
-                        onClick={handleBack}
-                        sx={{
-                            width: {
-                                xs: "100%",
-                                sm: "auto",
-                            },
-                        }}
-                    >
-                        Back
-                    </Button>
+                {/* Footer (hidden on the
+                    success screen — it has
+                    its own close button) */}
+                {activeStep?.key !==
+                    "review" && (
+                        <Box
+                            sx={{
+                                p: 3,
+                                borderTop: "1px solid #E2E8F0",
+                                display: "flex",
+                                flexDirection: {
+                                    xs: "column",
+                                    sm: "row",
+                                },
+                                gap: 2,
+                                justifyContent:
+                                    "space-between",
+                            }}
+                        >
+                            <Button
+                                disabled={
+                                    currentStep === 0
+                                }
+                                onClick={handleBack}
+                                sx={{
+                                    width: {
+                                        xs: "100%",
+                                        sm: "auto",
+                                    },
+                                }}
+                            >
+                                Back
+                            </Button>
 
-                    <Button
-                        variant="contained"
-                        onClick={handleNext}
-                        disabled={
-                            activeStep?.key ===
-                            "property-type" &&
-                            !domain || loading
-                        }
-                        sx={{
-                            width: {
-                                xs: "100%",
-                                sm: "auto",
-                            },
-                            bgcolor:
-                                "#1E3A8A",
-                        }}
-                    >
-                        {loading
-                            ? "Saving..."
-                            : currentStep ===
-                                steps?.length - 1
-                                ? "Submit"
-                                : "Next"}
-                    </Button>
-                </Box>
+                            <Button
+                                variant="contained"
+                                onClick={handleNext}
+                                disabled={
+                                    isStepIncomplete() ||
+                                    loading
+                                }
+                                sx={{
+                                    width: {
+                                        xs: "100%",
+                                        sm: "auto",
+                                    },
+                                    bgcolor:
+                                        "#1E3A8A",
+                                }}
+                            >
+                                {loading
+                                    ? "Saving..."
+                                    : activeStep?.key ===
+                                        "photos"
+                                        ? "Publish"
+                                        : "Next"}
+                            </Button>
+                        </Box>
+                    )}
             </Box>
         </Modal>
     );
