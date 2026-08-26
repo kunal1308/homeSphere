@@ -9,9 +9,98 @@ import {
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import { handleProtectedNavigation } from "../components/Header";
+
+import { useEffect, useState } from "react";
+
+import {
+  useNavigate,
+  useOutletContext,
+} from "react-router-dom";
+
+import { onAuthStateChanged } from "firebase/auth";
+import { toast } from "react-toastify";
+
+import { auth } from "../firebase/config";
+import { getUserData } from "../services/authService";
+
+interface HomeOutletContext {
+  onLoginClick: () => void;
+  onSignupClick: () => void;
+}
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const { onLoginClick } =
+    useOutletContext<HomeOutletContext>();
+
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    const unsubscribe =
+      onAuthStateChanged(
+        auth,
+        async (user) => {
+          if (user) {
+            const userData =
+              await getUserData(
+                user.uid
+              );
+
+            const role =
+              userData?.role || "";
+
+            setUserRole(role);
+
+            // Logged-in users skip the
+            // landing page — Home is only
+            // for logged-out visitors
+            navigate(
+              role === "owner"
+                ? "/my-listings"
+                : "/properties",
+              { replace: true }
+            );
+          } else {
+            setUserRole("");
+          }
+        }
+      );
+
+    return () => unsubscribe();
+  }, [navigate]);
+
+  // Browse-type CTAs: tenants go to the
+  // property grid, owners to their listings
+  const handleBrowseClick = () => {
+    if (!auth.currentUser) {
+      onLoginClick();
+      return;
+    }
+
+    navigate(
+      userRole === "owner"
+        ? "/my-listings"
+        : "/properties"
+    );
+  };
+
+  // List-type CTAs: only owners can list
+  const handleListClick = () => {
+    if (!auth.currentUser) {
+      onLoginClick();
+      return;
+    }
+
+    if (userRole === "owner") {
+      navigate("/my-listings");
+    } else {
+      toast.info(
+        "Only owner accounts can list properties"
+      );
+    }
+  };
+
   return (
     <>
       {/* HERO SECTION */}
@@ -119,8 +208,8 @@ const Home = () => {
               <Button
                 variant="contained"
                 size="large"
-                onClick={() =>
-                  handleProtectedNavigation()
+                onClick={
+                  handleBrowseClick
                 }
                 sx={{
                   height: "58px",
@@ -149,8 +238,8 @@ const Home = () => {
               <Button
                 variant="outlined"
                 size="large"
-                onClick={() =>
-                  handleProtectedNavigation()
+                onClick={
+                  handleListClick
                 }
                 sx={{
                   height:
@@ -394,8 +483,8 @@ const Home = () => {
 
               <Button
                 variant="contained"
-                onClick={() =>
-                  handleProtectedNavigation()
+                onClick={
+                  handleBrowseClick
                 }
                 sx={{
                   borderRadius:
@@ -469,8 +558,8 @@ const Home = () => {
 
               <Button
                 variant="contained"
-                onClick={() =>
-                  handleProtectedNavigation()
+                onClick={
+                  handleListClick
                 }
                 sx={{
                   borderRadius:
@@ -536,8 +625,8 @@ const Home = () => {
           <Button
             variant="contained"
             size="large"
-            onClick={() =>
-              handleProtectedNavigation()
+            onClick={
+              handleBrowseClick
             }
             sx={{
               bgcolor: "white",

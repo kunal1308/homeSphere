@@ -32,19 +32,6 @@ interface HeaderProps {
     onLoginClick: () => void;
     onSignupClick: () => void;
 }
-export const handleProtectedNavigation =
-    () => {
-        if (
-            !auth.currentUser
-        ) {
-            document
-                .getElementById(
-                    "header-login-btn"
-                )
-                ?.click();
-        }
-    };
-
 const Header = ({
     onLoginClick,
     onSignupClick,

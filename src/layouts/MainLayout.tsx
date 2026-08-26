@@ -24,7 +24,12 @@ const MainLayout = ({
                     minHeight: "80vh",
                 }}
             >
-                <Outlet />
+                <Outlet
+                    context={{
+                        onLoginClick,
+                        onSignupClick,
+                    }}
+                />
             </main>
 
             <Footer />
