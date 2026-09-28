@@ -14,6 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 
 import { registerUser } from "../services/authService";
+import type { SignupPrefill } from "./LoginModal";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useLoader } from "../context/LoaderContext";
@@ -22,11 +23,15 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 interface SignupModalProps {
     open: boolean;
     handleClose: () => void;
+    onSwitchToLogin: () => void;
+    prefill?: SignupPrefill | null;
 }
 
 const SignupModal = ({
     open,
     handleClose,
+    onSwitchToLogin,
+    prefill,
 }: SignupModalProps) => {
     const navigate = useNavigate();
     const {
@@ -41,6 +46,12 @@ const SignupModal = ({
     const [role, setRole] = useState("");
     const [errors, setErrors] = useState<any>({});
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [appliedPrefill, setAppliedPrefill] =
+        useState<SignupPrefill | null | undefined>(null);
+    if (open && prefill && prefill !== appliedPrefill) {
+        setAppliedPrefill(prefill);
+        if (prefill.email) setEmail(prefill.email);
+    }
 
     const validateForm = () => {
         const newErrors: any = {};
@@ -77,10 +88,23 @@ const SignupModal = ({
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleModalClose = () => {
+    const resetForm = () => {
+        setName("");
+        setEmail("");
+        setPassword("");
+        setRole("");
         setShowPassword(false);
         setErrors({});
+    };
+
+    const handleModalClose = () => {
+        resetForm();
         handleClose();
+    };
+
+    const handleSwitchToLogin = () => {
+        resetForm();
+        onSwitchToLogin();
     };
 
     const handleSignup = async () => {
@@ -104,13 +128,6 @@ const SignupModal = ({
             }
 
             handleModalClose();
-
-            // Reset fields
-            setName("");
-            setEmail("");
-            setPassword("");
-            setRole("");
-            setErrors({});
         } catch (error: any) {
             if (
                 error.code === "auth/email-already-in-use"
@@ -366,7 +383,7 @@ const SignupModal = ({
                     <Typography
                         sx={{
                             fontWeight: "bold",
-                            mb: 4,
+                            mb: 3,
                             fontSize: {
                                 xs: "1.8rem",
                                 md: "2.2rem",
@@ -379,7 +396,7 @@ const SignupModal = ({
                     {/* Role Selection */}
                     <Typography
                         sx={{
-                            mb: 2,
+                            mb: 1.75,
                             fontWeight: "bold",
                         }}
                     >
@@ -489,7 +506,7 @@ const SignupModal = ({
                         label="Full Name"
                         error={!!errors.name}
                         helperText={errors.name}
-                        sx={{ mb: 3 }}
+                        sx={{ mb: 2.5 }}
                         value={name}
                         onChange={(e) => {
                             setName(e.target.value);
@@ -502,7 +519,7 @@ const SignupModal = ({
                         label="Email"
                         error={!!errors.email}
                         helperText={errors.email}
-                        sx={{ mb: 3 }}
+                        sx={{ mb: 2.5 }}
                         value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
@@ -516,7 +533,7 @@ const SignupModal = ({
                         type={showPassword ? "text" : "password"}
                         error={!!errors.password}
                         helperText={errors.password}
-                        sx={{ mb: 4 }}
+                        sx={{ mb: 3.5 }}
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value);
@@ -555,6 +572,31 @@ const SignupModal = ({
                     >
                         Create Account
                     </Button>
+
+                    <Typography
+                        variant="body2"
+                        sx={{
+                            mt: 3,
+                            textAlign: "center",
+                            color: "text.secondary",
+                        }}
+                    >
+                        Already have an account?{" "}
+                        <Button
+                            variant="text"
+                            size="small"
+                            onClick={handleSwitchToLogin}
+                            sx={{
+                                textTransform: "none",
+                                fontWeight: 600,
+                                p: 0,
+                                minWidth: 0,
+                                verticalAlign: "baseline",
+                            }}
+                        >
+                            Login
+                        </Button>
+                    </Typography>
                 </Box>
             </Box>
         </Modal>

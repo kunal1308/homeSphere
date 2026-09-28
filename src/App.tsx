@@ -6,7 +6,7 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 
-import LoginModal from "./components/LoginModal";
+import LoginModal, { type SignupPrefill } from "./components/LoginModal";
 
 import SignupModal from "./components/SignupModal";
 
@@ -25,6 +25,17 @@ function App() {
     setOpenSignup,
   ] = useState(false);
 
+  // Login details carried into Signup when the user didn't exist.
+  const [
+    signupPrefill,
+    setSignupPrefill,
+  ] = useState<SignupPrefill | null>(null);
+
+  const closeSignup = () => {
+    setOpenSignup(false);
+    setSignupPrefill(null);
+  };
+
   return (
     <BrowserRouter>
       <GlobalLoader />
@@ -34,13 +45,21 @@ function App() {
         handleClose={() =>
           setOpenLogin(false)
         }
+        onSwitchToSignup={(prefill) => {
+          setSignupPrefill(prefill ?? null);
+          setOpenLogin(false);
+          setOpenSignup(true);
+        }}
       />
 
       <SignupModal
         open={openSignup}
-        handleClose={() =>
-          setOpenSignup(false)
-        }
+        handleClose={closeSignup}
+        onSwitchToLogin={() => {
+          closeSignup();
+          setOpenLogin(true);
+        }}
+        prefill={signupPrefill}
       />
 
       <AppRoutes

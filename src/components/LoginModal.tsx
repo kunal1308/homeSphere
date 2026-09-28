@@ -18,14 +18,20 @@ import { useNavigate } from "react-router-dom";
 import { useLoader } from "../context/LoaderContext";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
+export interface SignupPrefill {
+    email?: string;
+}
+
 interface LoginModalProps {
     open: boolean;
     handleClose: () => void;
+    onSwitchToSignup: (prefill?: SignupPrefill) => void;
 }
 
 const LoginModal = ({
     open,
     handleClose,
+    onSwitchToSignup,
 }: LoginModalProps) => {
     const navigate = useNavigate();
     const {
@@ -65,10 +71,21 @@ const LoginModal = ({
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleModalClose = () => {
+    const resetForm = () => {
+        setEmail("");
+        setPassword("");
         setShowPassword(false);
         setErrors({});
+    };
+
+    const handleModalClose = () => {
+        resetForm();
         handleClose();
+    };
+
+    const handleSwitchToSignup = (prefill?: SignupPrefill) => {
+        resetForm();
+        onSwitchToSignup(prefill);
     };
 
     const validateField = (
@@ -170,10 +187,6 @@ const LoginModal = ({
 
             handleModalClose();
 
-            setEmail("");
-            setPassword("");
-            setErrors({});
-
             // Redirect based on role
             if (userData?.role === "tenant") {
                 navigate("/properties");
@@ -186,7 +199,13 @@ const LoginModal = ({
             if (
                 error.code === "auth/user-not-found"
             ) {
-                toast.error("User not found");
+                // Firebase only reports this when "email enumeration
+                // protection" is OFF in the console; with it on, unknown
+                // emails come back as auth/invalid-credential instead.
+                toast.error(
+                    "User does not exist, please signup"
+                );
+                handleSwitchToSignup({ email });
             } else if (
                 error.code ===
                 "auth/wrong-password"
@@ -478,6 +497,31 @@ const LoginModal = ({
                     >
                         Login
                     </Button>
+
+                    <Typography
+                        variant="body2"
+                        sx={{
+                            mt: 3,
+                            textAlign: "center",
+                            color: "text.secondary",
+                        }}
+                    >
+                        Don&apos;t have an account?{" "}
+                        <Button
+                            variant="text"
+                            size="small"
+                            onClick={() => handleSwitchToSignup()}
+                            sx={{
+                                textTransform: "none",
+                                fontWeight: 600,
+                                p: 0,
+                                minWidth: 0,
+                                verticalAlign: "baseline",
+                            }}
+                        >
+                            Sign up
+                        </Button>
+                    </Typography>
                 </Box>
             </Box>
         </Modal>
