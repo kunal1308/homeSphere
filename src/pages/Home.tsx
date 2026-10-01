@@ -13,6 +13,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import { useEffect, useState } from "react";
 
 import {
+  useLocation,
   useNavigate,
   useOutletContext,
 } from "react-router-dom";
@@ -35,6 +36,20 @@ const Home = () => {
     useOutletContext<HomeOutletContext>();
 
   const [userRole, setUserRole] = useState("");
+
+  const location = useLocation();
+
+  // A protected page sent a logged-out visitor here: open login,
+  // then clear the flag so a refresh doesn't reopen it
+  useEffect(() => {
+    if (location.state?.openLogin) {
+      onLoginClick();
+      navigate(location.pathname, {
+        replace: true,
+        state: null,
+      });
+    }
+  }, [location.state, location.pathname, onLoginClick, navigate]);
 
   useEffect(() => {
     const unsubscribe =

@@ -25,6 +25,10 @@ import MyApplications from "../pages/MyApplications";
 
 import OwnerApplications from "../pages/OwnerApplications";
 
+import NotFound from "../pages/NotFound";
+
+import ProtectedRoute from "./ProtectedRoute";
+
 interface Props {
     onLoginClick: () => void;
 
@@ -56,33 +60,61 @@ const AppRoutes = ({
                     }
                 />
 
+                {/* Tenant-only pages */}
                 <Route
-                    path="/properties"
                     element={
-                        <Properties />
+                        <ProtectedRoute role="tenant" />
                     }
-                />
+                >
+                    <Route
+                        path="/properties"
+                        element={
+                            <Properties />
+                        }
+                    />
 
-                <Route
-                    path="/my-listings"
-                    element={
-                        <MyListings />
-                    }
-                />
+                    <Route
+                        path="/property-details/:id"
+                        element={
+                            <PropertyDetails />
+                        }
+                    />
 
-                <Route
-                    path="/edit-property/:id"
-                    element={
-                        <EditPropertyScreen />
-                    }
-                />
+                    <Route
+                        path="/my-applications"
+                        element={
+                            <MyApplications />
+                        }
+                    />
+                </Route>
 
+                {/* Owner-only pages */}
                 <Route
-                    path="/property-details/:id"
                     element={
-                        <PropertyDetails />
+                        <ProtectedRoute role="owner" />
                     }
-                />
+                >
+                    <Route
+                        path="/my-listings"
+                        element={
+                            <MyListings />
+                        }
+                    />
+
+                    <Route
+                        path="/edit-property/:id"
+                        element={
+                            <EditPropertyScreen />
+                        }
+                    />
+
+                    <Route
+                        path="/applications"
+                        element={
+                            <OwnerApplications />
+                        }
+                    />
+                </Route>
 
                 <Route
                     path="/about-us"
@@ -106,16 +138,9 @@ const AppRoutes = ({
                 />
 
                 <Route
-                    path="/my-applications"
+                    path="*"
                     element={
-                        <MyApplications />
-                    }
-                />
-
-                <Route
-                    path="/applications"
-                    element={
-                        <OwnerApplications />
+                        <NotFound />
                     }
                 />
             </Route>

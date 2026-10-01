@@ -31,7 +31,7 @@ import {
     uploadPropertyImages,
 } from "../services/propertyService";
 
-import { db } from "../firebase/config";
+import { auth, db } from "../firebase/config";
 import BasicInfoStep from "../components/AddProperty/Steps/BasicInfoStep";
 import PropertyDetailsStep from "../components/AddProperty/Steps/PropertyDetailsStep";
 import UploadPhotosStep from "../components/AddProperty/Steps/UploadPhotosStep";
@@ -101,12 +101,27 @@ const EditPropertyScreen = () => {
             const snapshot =
                 await getDoc(propertyRef);
 
-            if (snapshot.exists()) {
-                setFormData({
-                    id: snapshot.id,
-                    ...snapshot.data(),
+            // Only the property's owner may edit it
+            if (
+                !snapshot.exists() ||
+                snapshot.data().ownerId !==
+                    auth.currentUser?.uid
+            ) {
+                // Fixed toastId so StrictMode's double effect run
+                // doesn't show it twice
+                toast.error("Property not found", {
+                    toastId: "property-not-found",
                 });
+                navigate("/my-listings", {
+                    replace: true,
+                });
+                return;
             }
+
+            setFormData({
+                id: snapshot.id,
+                ...snapshot.data(),
+            });
         } catch (error) {
             console.log(error);
         } finally {
