@@ -2,6 +2,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
+    sendEmailVerification,
     signOut,
     updateProfile,
 } from "firebase/auth";
@@ -53,7 +54,22 @@ export const registerUser =
             }
         );
 
-        return userCredential.user;
+        // Send the verification link, then sign out so the account
+        // can't be used until the email is verified. If sending fails,
+        // the user can resend it from the login screen.
+        let emailSent = true;
+
+        try {
+            await sendEmailVerification(
+                userCredential.user
+            );
+        } catch {
+            emailSent = false;
+        } finally {
+            await signOut(auth);
+        }
+
+        return emailSent;
     };
 
 export const getUserData = async (
@@ -70,16 +86,59 @@ export const getUserData = async (
     return null;
 };
 
+export const EMAIL_NOT_VERIFIED =
+    "auth/email-not-verified";
+
 export const loginUser = async (
     email: string,
     password: string
 ) => {
-    return await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-    );
+    const userCredential =
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+    // Unverified accounts are signed straight back out.
+    if (!userCredential.user.emailVerified) {
+        await signOut(auth);
+
+        throw Object.assign(
+            new Error("Email not verified"),
+            { code: EMAIL_NOT_VERIFIED }
+        );
+    }
+
+    return userCredential;
 };
+
+// Re-send the verification link. Firebase needs a signed-in user for
+// this, so sign in briefly and sign out again.
+export const resendVerificationEmail =
+    async (
+        email: string,
+        password: string
+    ) => {
+        const userCredential =
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+        try {
+            if (!userCredential.user.emailVerified) {
+                await sendEmailVerification(
+                    userCredential.user
+                );
+            }
+        } finally {
+            await signOut(auth);
+        }
+
+        return userCredential.user.emailVerified;
+    };
 
 export const logoutUser = async () => {
     return await signOut(auth);

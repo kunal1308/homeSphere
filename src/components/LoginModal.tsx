@@ -6,12 +6,19 @@ import {
     Button,
     IconButton,
     InputAdornment,
+    Alert,
 } from "@mui/material";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 
-import { loginUser, getUserData, resetPassword } from "../services/authService";
+import {
+    loginUser,
+    getUserData,
+    resetPassword,
+    resendVerificationEmail,
+    EMAIL_NOT_VERIFIED,
+} from "../services/authService";
 import { toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
@@ -43,6 +50,7 @@ const LoginModal = ({
         useState("");
     const [errors, setErrors] = useState<any>({});
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [unverified, setUnverified] = useState(false);
 
     const validateForm = () => {
         const newErrors: any = {};
@@ -76,6 +84,7 @@ const LoginModal = ({
         setPassword("");
         setShowPassword(false);
         setErrors({});
+        setUnverified(false);
     };
 
     const handleModalClose = () => {
@@ -166,8 +175,44 @@ const LoginModal = ({
             }
         };
 
+    const handleResendVerification =
+        async () => {
+            showLoader();
+            try {
+                const alreadyVerified =
+                    await resendVerificationEmail(
+                        email,
+                        password
+                    );
+
+                if (alreadyVerified) {
+                    setUnverified(false);
+                    toast.info(
+                        "Your email is already verified, please log in"
+                    );
+                } else {
+                    toast.success(
+                        "Verification link sent to your email"
+                    );
+                }
+            } catch (error: any) {
+                if (
+                    error.code === "auth/too-many-requests"
+                ) {
+                    toast.error(
+                        "Too many attempts, please try again later"
+                    );
+                } else {
+                    toast.error(error.message);
+                }
+            } finally {
+                hideLoader();
+            }
+        };
+
     const handleLogin = async () => {
         showLoader();
+        setUnverified(false);
         try {
             if (!validateForm()) return;
 
@@ -196,7 +241,9 @@ const LoginModal = ({
                 navigate("/my-listings");
             }
         } catch (error: any) {
-            if (
+            if (error.code === EMAIL_NOT_VERIFIED) {
+                setUnverified(true);
+            } else if (
                 error.code === "auth/user-not-found"
             ) {
                 // Firebase only reports this when "email enumeration
@@ -416,6 +463,26 @@ const LoginModal = ({
                         Login
                     </Typography>
 
+                    {unverified && (
+                        <Alert
+                            severity="warning"
+                            sx={{ mb: 3 }}
+                            action={
+                                <Button
+                                    color="inherit"
+                                    size="small"
+                                    onClick={handleResendVerification}
+                                    sx={{ textTransform: "none", fontWeight: 600 }}
+                                >
+                                    Resend link
+                                </Button>
+                            }
+                        >
+                            Please verify your email first. Check your
+                            inbox (and spam folder) for the link.
+                        </Alert>
+                    )}
+
                     <TextField
                         fullWidth
                         label="Email"
@@ -425,6 +492,7 @@ const LoginModal = ({
                         value={email}
                         onChange={(e) => {
                             setEmail(e.target.value);
+                            setUnverified(false);
                             validateField(
                                 "email",
                                 e.target.value

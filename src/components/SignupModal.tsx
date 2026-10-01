@@ -16,7 +16,6 @@ import { useState } from "react";
 import { registerUser } from "../services/authService";
 import type { SignupPrefill } from "./LoginModal";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { useLoader } from "../context/LoaderContext";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
@@ -33,7 +32,6 @@ const SignupModal = ({
     onSwitchToLogin,
     prefill,
 }: SignupModalProps) => {
-    const navigate = useNavigate();
     const {
         showLoader,
         hideLoader,
@@ -112,22 +110,26 @@ const SignupModal = ({
         try {
             if (!validateForm()) return;
 
-            await registerUser(
+            const emailSent = await registerUser(
                 name,
                 email,
                 password,
                 role
             );
 
-            toast.success("Signup Successful");
-
-            if (role === "tenant") {
-                navigate("/properties");
+            if (emailSent) {
+                toast.success(
+                    `Account created! We sent a verification link to ${email}. Verify your email, then log in.`,
+                    { autoClose: 8000 }
+                );
             } else {
-                navigate("/my-listings");
+                toast.warning(
+                    "Account created, but we couldn't send the verification email. Log in to resend it.",
+                    { autoClose: 8000 }
+                );
             }
 
-            handleModalClose();
+            handleSwitchToLogin();
         } catch (error: any) {
             if (
                 error.code === "auth/email-already-in-use"

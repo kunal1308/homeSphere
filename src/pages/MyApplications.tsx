@@ -34,7 +34,7 @@ const MyApplications = () => {
             onAuthStateChanged(
                 auth,
                 (user) => {
-                    if (user) {
+                    if (user?.emailVerified) {
                         fetchApplications();
                     }
                 }

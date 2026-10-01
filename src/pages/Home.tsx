@@ -41,7 +41,9 @@ const Home = () => {
       onAuthStateChanged(
         auth,
         async (user) => {
-          if (user) {
+          // Unverified users are only signed in briefly during
+          // signup/login checks, so treat them as logged out
+          if (user?.emailVerified) {
             const userData =
               await getUserData(
                 user.uid

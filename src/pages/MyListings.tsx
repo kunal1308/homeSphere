@@ -44,7 +44,7 @@ const MyListings = () => {
             onAuthStateChanged(
                 auth,
                 (user) => {
-                    if (user) {
+                    if (user?.emailVerified) {
                         fetchProperties();
                     }
                 }

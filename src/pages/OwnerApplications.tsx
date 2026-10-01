@@ -48,7 +48,7 @@ const OwnerApplications =
                         user
                     ) => {
                         if (
-                            user
+                            user?.emailVerified
                         ) {
                             fetchApplications();
                         }
